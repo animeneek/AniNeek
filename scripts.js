@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const animeGrid = document.getElementById('animeGrid');
     const prevPageButton = document.getElementById('prevPage');
     const nextPageButton = document.getElementById('nextPage');
+    const gridViewButton = document.getElementById('gridView');
+    const listViewButton = document.getElementById('listView');
     let currentPage = 1;
     let animeData = [];
     let animeDetailsCache = {};
@@ -22,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error fetching JSON data:', error));
 
     function displayAnimeGrid(data, page) {
-        const itemsPerPage = 12;
+        const itemsPerPage = 30;
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const paginatedData = data.slice(startIndex, endIndex);
@@ -39,6 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         prevPageButton.disabled = page === 1;
         nextPageButton.disabled = endIndex >= data.length;
+        
+        // Update URL with current page
+        const url = new URL(window.location);
+        url.searchParams.set('page', page);
+        window.history.pushState({}, '', url);
+        
+        // Smooth fade-in animation
+        animeGrid.classList.remove('visible');
+        setTimeout(() => {
+            animeGrid.classList.add('visible');
+        }, 100);
     }
 
     function fetchAnimeDetails(malId, anime) {
@@ -92,4 +105,21 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPage++;
         displayAnimeGrid(animeData, currentPage);
     });
+
+    gridViewButton.addEventListener('click', () => {
+        animeGrid.classList.remove('list-view');
+        animeGrid.classList.add('grid-view');
+    });
+
+    listViewButton.addEventListener('click', () => {
+        animeGrid.classList.remove('grid-view');
+        animeGrid.classList.add('list-view');
+    });
+
+    // Check for 'page' parameter in URL and set current page
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('page')) {
+        currentPage = parseInt(urlParams.get('page'));
+        displayAnimeGrid(animeData, currentPage);
+    }
 });

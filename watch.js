@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("animeneek.json")
         .then(response => response.json())
         .then(json => {
+            console.log("Fetched JSON data:", json); // Debugging line to check if JSON is fetched properly
             const animeEpisodes = json.find(item => item["data-mal-id"] == malId);
 
             if (animeEpisodes) {
@@ -49,7 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Change the source (sub, dub, raw)
     function changeSource(source) {
+        const animeEpisodes = json.find(item => item["data-mal-id"] == malId);
         const episode = animeEpisodes.episodes.find(ep => ep["data-ep-num"] == episodeNum && ep["data-ep-lan"].toLowerCase() === source.toLowerCase());
+        
         if (episode) {
             const videoLink = `//s3taku.one/watch?play=${episode["data-video-id"]}`;
             videoPlayer.innerHTML = `<iframe src="${videoLink}" width="100%" height="500" frameborder="0" allowfullscreen></iframe>`;

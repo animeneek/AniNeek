@@ -14,9 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             animeData = data;
-            loadMoreAnime();
+            loadInitialAnime();
         })
         .catch(error => console.error('Error fetching JSON data:', error));
+
+    function loadInitialAnime() {
+        animeGrid.innerHTML = '';
+        currentPage = 1;
+        loadMoreAnime();
+    }
 
     function loadMoreAnime() {
         if (isLoading) return;
@@ -79,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return false;
         });
-        loadMoreAnime();
+        loadInitialAnime();
     });
 
     sortSelect.addEventListener('change', (event) => {
@@ -87,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sortAnimeData();
         animeGrid.innerHTML = '';
         currentPage = 1;
-        loadMoreAnime();
+        loadInitialAnime();
     });
 
     function sortAnimeData() {

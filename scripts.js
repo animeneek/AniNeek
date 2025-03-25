@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const animeItems = animeList.getElementsByTagName('li');
     
     const modal = document.getElementById('animeModal');
-    const modalContent = document.querySelector('.modal-content');
     const closeModal = document.querySelector('.close');
     const animeTitle = document.getElementById('animeTitle');
     const animeSynopsis = document.getElementById('animeSynopsis');

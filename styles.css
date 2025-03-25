@@ -1,12 +1,13 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    color: #333;
 }
 
 header {
-    background-color: #333;
+    background-color: #1a1a1a;
     color: #fff;
     padding: 1rem 0;
     text-align: center;
@@ -34,12 +35,48 @@ nav ul li a {
 }
 
 main {
-    padding: 1rem;
+    padding: 2rem;
     text-align: center;
 }
 
+.hero {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 2rem 0;
+}
+
+.anime-highlights {
+    margin-top: 2rem;
+}
+
+.anime-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.anime-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.anime-card img {
+    width: 100%;
+    height: auto;
+}
+
+.anime-card h3 {
+    margin: 0;
+    padding: 1rem;
+}
+
 footer {
-    background-color: #333;
+    background-color: #1a1a1a;
     color: #fff;
     text-align: center;
     padding: 1rem 0;

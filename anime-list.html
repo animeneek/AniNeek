@@ -22,11 +22,15 @@
         <section class="anime-list">
             <h2>Anime List</h2>
             <input type="text" id="searchBar" placeholder="Search for anime...">
-            <div id="animeGrid" class="anime-grid"></div>
-            <div class="pagination">
-                <button id="prevPage">Previous</button>
-                <button id="nextPage">Next</button>
+            <div id="sortOptions">
+                <select id="sortSelect">
+                    <option value="newest">Newest</option>
+                    <option value="popular">Popular</option>
+                    <option value="top">Top Rating</option>
+                </select>
             </div>
+            <div id="animeGrid" class="anime-grid"></div>
+            <div id="loading" class="loading">Loading...</div>
         </section>
     </main>
     <footer>

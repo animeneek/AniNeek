@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded and parsed');
+    
     const searchBar = document.getElementById('searchBar');
     const animeList = document.getElementById('animeList');
     const animeItems = animeList.getElementsByTagName('li');
@@ -11,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchBar.addEventListener('keyup', () => {
         const searchTerm = searchBar.value.toLowerCase();
+        console.log('Search term:', searchTerm);
         for (let i = 0; i < animeItems.length; i++) {
             const animeTitle = animeItems[i].textContent.toLowerCase();
             if (animeTitle.includes(searchTerm)) {
@@ -25,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.tagName === 'A') {
             event.preventDefault();  // Prevent default anchor behavior
             const animeId = event.target.parentElement.getAttribute('data-id');
+            console.log('Anime ID clicked:', animeId);
             fetchAnimeDetails(animeId);
         }
     });
@@ -41,10 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function fetchAnimeDetails(animeId) {
         const url = `https://api.jikan.moe/v4/anime/${animeId}`;
+        console.log('Fetching anime details from:', url);
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 const animeDetails = data.data;
+                console.log('Anime details fetched:', animeDetails);
                 displayAnimeDetails(animeDetails);
             })
             .catch(error => console.error('Error fetching anime details:', error));

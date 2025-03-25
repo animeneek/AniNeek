@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchBox = document.getElementById("searchBox");
     const searchButton = document.getElementById("searchButton");
     const randomButton = document.getElementById("randomButton");
-    const animeListButton = document.getElementById("animeListButton");
     const animeResults = document.getElementById("animeResults");
 
     // Search Function
@@ -32,10 +31,5 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 window.location.href = `info.html?id=${data.data.mal_id}`;
             });
-    });
-
-    // Anime List Function (Redirect)
-    animeListButton.addEventListener("click", function () {
-        window.location.href = "anime-list.html";
     });
 });

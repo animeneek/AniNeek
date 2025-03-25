@@ -23,8 +23,21 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>${animeDetails.title}</h2>
             <img src="${animeDetails.images.jpg.image_url}" alt="${animeDetails.title}">
             <p>${animeDetails.synopsis}</p>
+            <div class="anime-meta">
+                <p><strong>Score:</strong> ${animeDetails.score}</p>
+                <p><strong>Episodes:</strong> ${animeDetails.episodes}</p>
+                <p><strong>Type:</strong> ${animeDetails.type}</p>
+                <p><strong>Genres:</strong> ${animeDetails.genres.map(genre => genre.name).join(', ')}</p>
+            </div>
             <h3>Episodes</h3>
-            <div id="episodeList"></div>
+            <div id="episodeList">
+                <h4>Sub</h4>
+                <div id="subEpisodes"></div>
+                <h4>Dub</h4>
+                <div id="dubEpisodes"></div>
+                <h4>Raw</h4>
+                <div id="rawEpisodes"></div>
+            </div>
         `;
         fetch('animeneek.json')
             .then(response => response.json())
@@ -36,25 +49,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayEpisodes(episodes) {
-        const episodeList = document.getElementById('episodeList');
+        const subEpisodes = document.getElementById('subEpisodes');
+        const dubEpisodes = document.getElementById('dubEpisodes');
+        const rawEpisodes = document.getElementById('rawEpisodes');
+
         episodes.forEach(episode => {
             const episodeDiv = document.createElement('div');
             const embedUrl = episode['data-src'] === 'anime' ?
                 `https://s3taku.one/watch?play=${episode['data-video-id']}` :
                 `https://streamtape.com/v/${episode['data-video-id']}`;
             episodeDiv.innerHTML = `
-                <button onclick="playEpisode('${embedUrl}')">Episode ${episode['data-ep-num']} (${episode['data-ep-lan']})</button>
+                <a href="anime-episode.html?mal_id=${episode['data-mal-id']}&lan=${episode['data-ep-lan']}&ep=${episode['data-ep-num']}">Episode ${episode['data-ep-num']} (${episode['data-ep-lan']})</a>
             `;
-            episodeList.appendChild(episodeDiv);
+            if (episode['data-ep-lan'] === 'Sub') {
+                subEpisodes.appendChild(episodeDiv);
+            } else if (episode['data-ep-lan'] === 'Dub') {
+                dubEpisodes.appendChild(episodeDiv);
+            } else if (episode['data-ep-lan'] === 'Raw') {
+                rawEpisodes.appendChild(episodeDiv);
+            }
         });
-    }
-
-    window.playEpisode = function(embedUrl) {
-        const playerDiv = document.createElement('div');
-        playerDiv.innerHTML = `
-            <iframe src="${embedUrl}" width="640" height="360" frameborder="0" allowfullscreen></iframe>
-        `;
-        animeDetailsSection.innerHTML = ''; // Clear existing content
-        animeDetailsSection.appendChild(playerDiv);
     }
 });

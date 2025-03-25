@@ -33,13 +33,20 @@ function loadAnimeList() {
             animeList.innerHTML = ''; // Clear existing content
 
             data.forEach(anime => {
-                const animeItem = document.createElement('div');
-                animeItem.className = 'anime-item';
-                animeItem.innerHTML = `
-                    <h3>${anime['data-mal-title']}</h3>
-                    <button onclick="viewAnimeDetails(${anime['data-mal-id']})">View Details</button>
-                `;
-                animeList.appendChild(animeItem);
+                fetch(`https://api.jikan.moe/v4/anime/${anime['data-mal-id']}`)
+                    .then(response => response.json())
+                    .then(animeData => {
+                        const animeItem = document.createElement('div');
+                        animeItem.className = 'anime-item';
+                        animeItem.innerHTML = `
+                            <h3>${animeData.data.title}</h3>
+                            <img src="${animeData.data.images.jpg.image_url}" alt="${animeData.data.title}">
+                            <p>${animeData.data.synopsis}</p>
+                            <button onclick="viewAnimeDetails(${anime['data-mal-id']})">View Details</button>
+                        `;
+                        animeList.appendChild(animeItem);
+                    })
+                    .catch(error => console.error('Error loading anime details from Jikan:', error));
             });
         })
         .catch(error => console.error('Error loading anime list:', error));
@@ -60,13 +67,20 @@ function searchAnime(query) {
             }
 
             filteredAnime.forEach(anime => {
-                const animeItem = document.createElement('div');
-                animeItem.className = 'anime-item';
-                animeItem.innerHTML = `
-                    <h3>${anime['data-mal-title']}</h3>
-                    <button onclick="viewAnimeDetails(${anime['data-mal-id']})">View Details</button>
-                `;
-                animeList.appendChild(animeItem);
+                fetch(`https://api.jikan.moe/v4/anime/${anime['data-mal-id']}`)
+                    .then(response => response.json())
+                    .then(animeData => {
+                        const animeItem = document.createElement('div');
+                        animeItem.className = 'anime-item';
+                        animeItem.innerHTML = `
+                            <h3>${animeData.data.title}</h3>
+                            <img src="${animeData.data.images.jpg.image_url}" alt="${animeData.data.title}">
+                            <p>${animeData.data.synopsis}</p>
+                            <button onclick="viewAnimeDetails(${anime['data-mal-id']})">View Details</button>
+                        `;
+                        animeList.appendChild(animeItem);
+                    })
+                    .catch(error => console.error('Error loading anime details from Jikan:', error));
             });
         })
         .catch(error => console.error('Error searching anime:', error));
@@ -78,27 +92,44 @@ function viewAnimeDetails(animeId) {
 }
 
 function loadAnimeDetails(animeId) {
+    fetch(`https://api.jikan.moe/v4/anime/${animeId}`)
+        .then(response => response.json())
+        .then(animeData => {
+            const animeDetailsSection = document.getElementById('anime-details');
+            animeDetailsSection.innerHTML = `
+                <h3>${animeData.data.title}</h3>
+                <img src="${animeData.data.images.jpg.image_url}" alt="${animeData.data.title}">
+                <p>${animeData.data.synopsis}</p>
+                <p>Episodes:</p>
+                <ul id="episode-list"></ul>
+            `;
+            loadEpisodeList(animeId);
+        })
+        .catch(error => console.error('Error loading anime details from Jikan:', error));
+}
+
+function loadEpisodeList(animeId) {
     fetch('animeneek.json')
         .then(response => response.json())
         .then(data => {
             const animeDetails = data.find(anime => anime['data-mal-id'] === parseInt(animeId));
             if (animeDetails) {
-                const animeDetailsSection = document.getElementById('anime-details');
-                animeDetailsSection.innerHTML = `
-                    <h3>${animeDetails['data-mal-title']}</h3>
-                    <p>Episodes:</p>
-                    <ul>
-                        ${animeDetails.episodes.map(ep => `<li>${ep['data-ep-lan']} - Episode ${ep['data-ep-num']} <button onclick="viewEpisode(${animeId}, ${ep['data-ep-num']})">Watch</button></li>`).join('')}
-                    </ul>
-                `;
+                const episodeList = document.getElementById('episode-list');
+                animeDetails.episodes.forEach(ep => {
+                    const episodeItem = document.createElement('li');
+                    episodeItem.innerHTML = `
+                        ${ep['data-ep-lan']} - Episode ${ep['data-ep-num']} <button onclick="viewEpisode(${animeId}, ${ep['data-ep-num']}, '${ep['data-video-id']}', '${ep['data-src']}')">Watch</button>
+                    `;
+                    episodeList.appendChild(episodeItem);
+                });
             } else {
-                console.error('Anime not found');
+                console.error('Anime not found in animeneek.json');
             }
         })
-        .catch(error => console.error('Error loading anime details:', error));
+        .catch(error => console.error('Error loading episode list from animeneek.json:', error));
 }
 
-function viewEpisode(animeId, episodeNum) {
-    // Navigate to the episode page with the selected anime ID and episode number
-    window.location.href = `episode.html?animeId=${animeId}&episodeNum=${episodeNum}`;
+function viewEpisode(animeId, episodeNum, videoId, source) {
+    // Navigate to the episode page with the selected anime ID, episode number, and video ID
+    window.location.href = `episode.html?animeId=${animeId}&episodeNum=${episodeNum}&videoId=${videoId}&source=${source}`;
 }

@@ -1,4 +1,3 @@
-// Function to fetch and display episode data based on URL parameters
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const animeId = urlParams.get('id');
@@ -14,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Show the episode player
             loadVideoPlayer(episodeData['data-video-id']);
             displayEpisodeDetails(episodeData);
+            displaySourceButtons(episodeList, episodeNumber); // Display source selection buttons
         } else {
             displayError("Episode not found!");
         }
@@ -26,15 +26,14 @@ document.addEventListener("DOMContentLoaded", function () {
 function getEpisodeData(animeId) {
     // Replace this with actual data loading from animeneek.json file
     const data = [
-        // Sample JSON data
         {
             "data-mal-id": 21,
             "episodes": [
                 { "data-ep-lan": "sub", "data-ep-num": 1, "data-video-id": "18524" },
-                { "data-ep-lan": "dub", "data-ep-num": 1, "data-video-id": "18525" }
+                { "data-ep-lan": "dub", "data-ep-num": 1, "data-video-id": "18525" },
+                { "data-ep-lan": "raw", "data-ep-num": 1, "data-video-id": "18526" }
             ]
-        },
-        // More anime data...
+        }
     ];
 
     return data.find(anime => anime["data-mal-id"] == animeId)?.episodes;
@@ -50,11 +49,23 @@ function loadVideoPlayer(videoId) {
 function displayEpisodeDetails(episodeData) {
     const episodeTitle = document.getElementById('episode-title');
     episodeTitle.textContent = `Episode ${episodeData['data-ep-num']} - ${episodeData['data-ep-lan'].toUpperCase()}`;
+}
 
+// Function to display the source selection buttons dynamically
+function displaySourceButtons(episodeList, episodeNumber) {
     const sourceSelection = document.getElementById('source-selection');
-    const sourceButton = document.createElement('button');
-    sourceButton.textContent = "Watch Now";
-    sourceSelection.appendChild(sourceButton);
+    sourceSelection.innerHTML = ""; // Clear any existing buttons
+
+    const availableSources = episodeList.filter(episode => episode['data-ep-num'] == episodeNumber);
+
+    availableSources.forEach(episode => {
+        const sourceButton = document.createElement('button');
+        sourceButton.textContent = episode['data-ep-lan'].toUpperCase();
+        sourceButton.onclick = function() {
+            loadVideoPlayer(episode['data-video-id']);
+        };
+        sourceSelection.appendChild(sourceButton);
+    });
 }
 
 // Function to display an error message

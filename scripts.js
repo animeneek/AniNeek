@@ -1,20 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchBar = document.getElementById('searchBar');
     const animeList = document.getElementById('animeList');
-    const modal = document.getElementById('animeModal');
-    const closeModal = document.querySelector('.close');
-    const animeTitle = document.getElementById('animeTitle');
-    const animeEpisodes = document.getElementById('animeEpisodes');
-
-    closeModal.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
 
     // Fetch and parse the JSON data
     fetch('animeneek.json')
@@ -27,40 +13,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayAnimeList(data) {
         animeList.innerHTML = ''; // Clear existing list
         data.forEach(anime => {
-            const listItem = document.createElement('li');
-            listItem.setAttribute('data-mal-id', anime['data-mal-id']);
-            listItem.textContent = `Anime ${anime['data-mal-id']}`;
-            listItem.addEventListener('click', () => {
-                displayAnimeDetails(anime);
-            });
-            animeList.appendChild(listItem);
+            const malId = anime['data-mal-id'];
+            fetchAnimeDetails(malId, anime);
         });
     }
 
-    function displayAnimeDetails(anime) {
-        animeTitle.textContent = `Anime ${anime['data-mal-id']}`;
-        animeEpisodes.innerHTML = ''; // Clear existing episodes
-
-        anime.episodes.forEach(episode => {
-            const episodeDiv = document.createElement('div');
-            const episodeLink1 = document.createElement('a');
-            const episodeLink2 = document.createElement('a');
-
-            episodeLink1.href = `https://s3taku.one/watch?play=${episode['data-video-id']}`;
-            episodeLink1.textContent = `Episode ${episode['data-ep-num']} (${episode['data-ep-lan']}) - Link 1`;
-            episodeLink1.target = '_blank';
-
-            episodeLink2.href = `https://s3taku.one/watch?play=${episode['data-video-id']}&sv=1`;
-            episodeLink2.textContent = `Episode ${episode['data-ep-num']} (${episode['data-ep-lan']}) - Link 2`;
-            episodeLink2.target = '_blank';
-
-            episodeDiv.appendChild(episodeLink1);
-            episodeDiv.appendChild(document.createTextNode(' | ')); // Separator
-            episodeDiv.appendChild(episodeLink2);
-            animeEpisodes.appendChild(episodeDiv);
-        });
-
-        modal.style.display = 'block';
+    function fetchAnimeDetails(malId, anime) {
+        const url = `https://api.jikan.moe/v4/anime/${malId}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const animeDetails = data.data;
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <img src="${animeDetails.images.jpg.image_url}" alt="${animeDetails.title}" width="50">
+                    <a href="anime-details.html?mal_id=${malId}">${animeDetails.title}</a>
+                `;
+                animeList.appendChild(listItem);
+            })
+            .catch(error => console.error('Error fetching anime details:', error));
     }
 
     searchBar.addEventListener('keyup', () => {

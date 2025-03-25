@@ -8,22 +8,18 @@
 </head>
 <body>
     <header>
-        <h1>AniNeek</h1>
+        <h1><a href="index.html" id="logo">AniNeek</a></h1>
     </header>
 
-    <main>
-        <h2 id="episode-title">Loading...</h2>
+    <h2 id="episode-title">Loading Episode...</h2>
+    <div id="player-container">
+        <div id="video-player">Loading...</div>
+    </div>
 
-        <div id="player-container">
-            <iframe id="video-player" src="" width="100%" height="500px" frameborder="0"></iframe>
-        </div>
-
-        <div id="source-selection">
-            <!-- Dynamic source buttons will be added here -->
-        </div>
-
-        <div id="error-message"></div>
-    </main>
+    <h3>Select Source</h3>
+    <div id="source-selection">
+        <!-- Source buttons will be inserted here -->
+    </div>
 
     <script src="watch.js"></script>
 </body>

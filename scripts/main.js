@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
     // Placeholder data for anime thumbnails
     const animeThumbnails = [
         { title: "Attack on Titan", genre: "Action", description: "Humanity fights for survival against man-eating giants.", image: "assets/attack_on_titan.jpg" },
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     // Load anime thumbnails into the grid
-    const animeGrid = document.querySelector("#anime-grid .grid");
+    const animeGrid = document.querySelector(".anime-grid");
     animeThumbnails.forEach(anime => {
         const animeItem = document.createElement("div");
         animeItem.className = "grid-item";
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     // Load featured anime into the carousel
-    const carousel = document.querySelector("#featured .carousel");
+    const carousel = document.querySelector(".featured-carousel");
     featuredAnime.forEach(anime => {
         const carouselItem = document.createElement("div");
         carouselItem.className = "carousel-item";

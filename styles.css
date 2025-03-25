@@ -72,16 +72,19 @@ footer {
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
+    height: 250px; /* Adjust height to ensure consistent dimensions */
 }
 
 .anime-card img {
     width: 100%;
-    height: auto;
+    height: 180px;  /* Ensure consistent height for images */
+    object-fit: cover; /* Maintain aspect ratio and cover area */
 }
 
 .anime-card h3 {
     margin: 0;
-    padding: 1rem;
+    padding: 0.5rem;
+    font-size: 0.9rem; /* Smaller font size */
 }
 
 /* Pagination styles */

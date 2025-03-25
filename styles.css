@@ -57,12 +57,6 @@ footer {
     grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
     margin-bottom: 2rem;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.anime-grid.visible {
-    opacity: 1;
 }
 
 .anime-card {
@@ -87,21 +81,9 @@ footer {
     font-size: 0.9rem; /* Smaller font size */
 }
 
-/* Pagination styles */
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.pagination button {
-    padding: 0.5rem 1rem;
-    background-color: #1a1a1a;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.pagination button:hover {
-    background-color: #333;
+/* Loading styles */
+.loading {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #1a1a1a;
 }

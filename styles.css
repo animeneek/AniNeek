@@ -41,43 +41,6 @@ main {
     text-align: center;
 }
 
-.hero {
-    background-color: #1a1a1a;
-    color: #fff;
-    padding: 2rem 0;
-}
-
-.anime-highlights {
-    margin-top: 2rem;
-}
-
-.anime-grid {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
-
-.anime-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    width: 200px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.anime-card img {
-    width: 100%;
-    height: auto;
-}
-
-.anime-card h3 {
-    margin: 0;
-    padding: 1rem;
-}
-
 footer {
     background-color: #1a1a1a;
     color: #fff;
@@ -88,41 +51,37 @@ footer {
     bottom: 0;
 }
 
-/* Modal styles */
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
+/* Anime details styles */
+#animeDetails {
     text-align: left;
+    margin: 0 auto;
+    max-width: 800px;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+#animeDetails img {
+    width: 100%;
+    height: auto;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+#animeDetails h2 {
+    text-align: center;
+}
+
+#episodeList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+#episodeList button {
+    padding: 0.5rem 1rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: none;
     cursor: pointer;
+}
+
+#episodeList button:hover {
+    background-color: #333;
 }

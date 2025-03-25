@@ -1,37 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded and parsed');
-    
     const searchBar = document.getElementById('searchBar');
     const animeList = document.getElementById('animeList');
-    const animeItems = animeList.getElementsByTagName('li');
-    
     const modal = document.getElementById('animeModal');
     const closeModal = document.querySelector('.close');
     const animeTitle = document.getElementById('animeTitle');
-    const animeSynopsis = document.getElementById('animeSynopsis');
     const animeEpisodes = document.getElementById('animeEpisodes');
-
-    searchBar.addEventListener('keyup', () => {
-        const searchTerm = searchBar.value.toLowerCase();
-        console.log('Search term:', searchTerm);
-        for (let i = 0; i < animeItems.length; i++) {
-            const animeTitle = animeItems[i].textContent.toLowerCase();
-            if (animeTitle.includes(searchTerm)) {
-                animeItems[i].style.display = '';
-            } else {
-                animeItems[i].style.display = 'none';
-            }
-        }
-    });
-
-    animeList.addEventListener('click', (event) => {
-        if (event.target.tagName === 'A') {
-            event.preventDefault();  // Prevent default anchor behavior
-            const animeId = event.target.parentElement.getAttribute('data-id');
-            console.log('Anime ID clicked:', animeId);
-            fetchAnimeDetails(animeId);
-        }
-    });
 
     closeModal.addEventListener('click', () => {
         modal.style.display = 'none';
@@ -43,23 +16,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function fetchAnimeDetails(animeId) {
-        const url = `https://api.jikan.moe/v4/anime/${animeId}`;
-        console.log('Fetching anime details from:', url);
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const animeDetails = data.data;
-                console.log('Anime details fetched:', animeDetails);
-                displayAnimeDetails(animeDetails);
-            })
-            .catch(error => console.error('Error fetching anime details:', error));
+    // Fetch and parse the JSON data
+    fetch('animeneek.json')
+        .then(response => response.json())
+        .then(data => {
+            displayAnimeList(data);
+        })
+        .catch(error => console.error('Error fetching JSON data:', error));
+
+    function displayAnimeList(data) {
+        animeList.innerHTML = ''; // Clear existing list
+        data.forEach(anime => {
+            const listItem = document.createElement('li');
+            listItem.setAttribute('data-mal-id', anime['data-mal-id']);
+            listItem.textContent = `Anime ${anime['data-mal-id']}`;
+            listItem.addEventListener('click', () => {
+                displayAnimeDetails(anime);
+            });
+            animeList.appendChild(listItem);
+        });
     }
 
-    function displayAnimeDetails(animeDetails) {
-        animeTitle.textContent = animeDetails.title;
-        animeSynopsis.textContent = animeDetails.synopsis;
-        animeEpisodes.textContent = `Episodes: ${animeDetails.episodes}`;
+    function displayAnimeDetails(anime) {
+        animeTitle.textContent = `Anime ${anime['data-mal-id']}`;
+        animeEpisodes.innerHTML = ''; // Clear existing episodes
+
+        anime.episodes.forEach(episode => {
+            const episodeDiv = document.createElement('div');
+            const episodeLink1 = document.createElement('a');
+            const episodeLink2 = document.createElement('a');
+
+            episodeLink1.href = `https://s3taku.one/watch?play=${episode['data-video-id']}`;
+            episodeLink1.textContent = `Episode ${episode['data-ep-num']} (${episode['data-ep-lan']}) - Link 1`;
+            episodeLink1.target = '_blank';
+
+            episodeLink2.href = `https://s3taku.one/watch?play=${episode['data-video-id']}&sv=1`;
+            episodeLink2.textContent = `Episode ${episode['data-ep-num']} (${episode['data-ep-lan']}) - Link 2`;
+            episodeLink2.target = '_blank';
+
+            episodeDiv.appendChild(episodeLink1);
+            episodeDiv.appendChild(document.createTextNode(' | ')); // Separator
+            episodeDiv.appendChild(episodeLink2);
+            animeEpisodes.appendChild(episodeDiv);
+        });
+
         modal.style.display = 'block';
     }
+
+    searchBar.addEventListener('keyup', () => {
+        const searchTerm = searchBar.value.toLowerCase();
+        const listItems = animeList.getElementsByTagName('li');
+        for (let i = 0; i < listItems.length; i++) {
+            const animeTitle = listItems[i].textContent.toLowerCase();
+            if (animeTitle.includes(searchTerm)) {
+                listItems[i].style.display = '';
+            } else {
+                listItems[i].style.display = 'none';
+            }
+        }
+    });
 });

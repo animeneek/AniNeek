@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextPageButton = document.getElementById('nextPage');
     let currentPage = 1;
     let animeData = [];
+    let animeDetailsCache = {};
 
     // Fetch and parse the JSON data
     fetch('animeneek.json')
@@ -25,7 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         paginatedData.forEach(anime => {
             const malId = anime['data-mal-id'];
-            fetchAnimeDetails(malId, anime);
+            if (animeDetailsCache[malId]) {
+                const animeDetails = animeDetailsCache[malId];
+                createAnimeCard(animeDetails);
+            } else {
+                fetchAnimeDetails(malId, anime);
+            }
         });
 
         prevPageButton.disabled = page === 1;
@@ -38,28 +44,33 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 const animeDetails = data.data;
-                const animeCard = document.createElement('div');
-                animeCard.className = 'anime-card';
-                animeCard.innerHTML = `
-                    <img src="${animeDetails.images.jpg.image_url}" alt="${animeDetails.title}">
-                    <h3><a href="anime-details.html?mal_id=${malId}">${animeDetails.title}</a></h3>
-                `;
-                animeGrid.appendChild(animeCard);
+                animeDetailsCache[malId] = animeDetails;
+                createAnimeCard(animeDetails);
             })
             .catch(error => console.error('Error fetching anime details:', error));
+    }
+
+    function createAnimeCard(animeDetails) {
+        const animeCard = document.createElement('div');
+        animeCard.className = 'anime-card';
+        animeCard.innerHTML = `
+            <img src="${animeDetails.images.jpg.image_url}" alt="${animeDetails.title}">
+            <h3><a href="anime-details.html?mal_id=${animeDetails.mal_id}">${animeDetails.title}</a></h3>
+        `;
+        animeGrid.appendChild(animeCard);
     }
 
     searchBar.addEventListener('keyup', () => {
         const searchTerm = searchBar.value.toLowerCase();
         const filteredData = animeData.filter(anime => {
             const malId = anime['data-mal-id'];
-            return fetch(`https://api.jikan.moe/v4/anime/${malId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const title = data.data.title.toLowerCase();
-                    const englishTitle = data.data.title_english.toLowerCase();
-                    return title.includes(searchTerm) || englishTitle.includes(searchTerm);
-                });
+            const animeDetails = animeDetailsCache[malId];
+            if (animeDetails) {
+                const title = animeDetails.title.toLowerCase();
+                const englishTitle = animeDetails.title_english.toLowerCase();
+                return title.includes(searchTerm) || englishTitle.includes(searchTerm);
+            }
+            return false;
         });
         currentPage = 1;
         displayAnimeGrid(filteredData, currentPage);

@@ -13,6 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('anime-list')) {
         loadAnimeList();
     }
+
+    // Load anime details
+    const animeDetailsSection = document.getElementById('anime-details');
+    if (animeDetailsSection) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const animeId = urlParams.get('animeId');
+        if (animeId) {
+            loadAnimeDetails(animeId);
+        }
+    }
 });
 
 function loadAnimeList() {
@@ -65,4 +75,30 @@ function searchAnime(query) {
 function viewAnimeDetails(animeId) {
     // Navigate to the anime details page with the selected anime ID
     window.location.href = `anime-details.html?animeId=${animeId}`;
+}
+
+function loadAnimeDetails(animeId) {
+    fetch('animeneek.json')
+        .then(response => response.json())
+        .then(data => {
+            const animeDetails = data.find(anime => anime['data-mal-id'] === parseInt(animeId));
+            if (animeDetails) {
+                const animeDetailsSection = document.getElementById('anime-details');
+                animeDetailsSection.innerHTML = `
+                    <h3>${animeDetails['data-mal-title']}</h3>
+                    <p>Episodes:</p>
+                    <ul>
+                        ${animeDetails.episodes.map(ep => `<li>${ep['data-ep-lan']} - Episode ${ep['data-ep-num']} <button onclick="viewEpisode(${animeId}, ${ep['data-ep-num']})">Watch</button></li>`).join('')}
+                    </ul>
+                `;
+            } else {
+                console.error('Anime not found');
+            }
+        })
+        .catch(error => console.error('Error loading anime details:', error));
+}
+
+function viewEpisode(animeId, episodeNum) {
+    // Navigate to the episode page with the selected anime ID and episode number
+    window.location.href = `episode.html?animeId=${animeId}&episodeNum=${episodeNum}`;
 }

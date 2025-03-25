@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             animeData = data;
+            // Pre-fetch all anime details to cache
+            animeData.forEach(anime => {
+                const malId = anime['data-mal-id'];
+                fetchAnimeDetails(malId, anime);
+            });
             displayAnimeGrid(animeData, currentPage);
         })
         .catch(error => console.error('Error fetching JSON data:', error));
@@ -29,8 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (animeDetailsCache[malId]) {
                 const animeDetails = animeDetailsCache[malId];
                 createAnimeCard(animeDetails);
-            } else {
-                fetchAnimeDetails(malId, anime);
             }
         });
 
@@ -45,7 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 const animeDetails = data.data;
                 animeDetailsCache[malId] = animeDetails;
-                createAnimeCard(animeDetails);
+                if (currentPage === 1) {
+                    createAnimeCard(animeDetails);
+                }
             })
             .catch(error => console.error('Error fetching anime details:', error));
     }

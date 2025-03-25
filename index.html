@@ -3,46 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnimeNeek - Home v4.16</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>AnimeNeek - Home v1</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>AnimeNeek</h1>
         <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="anime-list.html">Anime List</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
+            <a href="index.html">Home</a>
+            <a href="anime-list.html">Anime List</a>
         </nav>
     </header>
     <main>
-        <section class="hero">
-            <h2>Welcome to AnimeNeek</h2>
-            <p>Your go-to platform for streaming anime online.</p>
-        </section>
-        <section class="anime-highlights">
-            <h2>Featured Anime</h2>
-            <div class="anime-grid">
-                <!-- Anime Cards -->
-                <div class="anime-card">
-                    <img src="https://via.placeholder.com/200x300" alt="Anime 1">
-                    <h3>Anime 1</h3>
-                </div>
-                <div class="anime-card">
-                    <img src="https://via.placeholder.com/200x300" alt="Anime 2">
-                    <h3>Anime 2</h3>
-                </div>
-                <div class="anime-card">
-                    <img src="https://via.placeholder.com/200x300" alt="Anime 3">
-                    <h3>Anime 3</h3>
-                </div>
-            </div>
+        <h2>Welcome to AnimeNeek</h2>
+        <section id="search">
+            <input type="text" id="search-box" placeholder="Search for an anime...">
+            <button id="search-button">Search</button>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2025 AnimeNeek. All rights reserved.</p>
-    </footer>
+    <script src="script.js"></script>
 </body>
 </html>

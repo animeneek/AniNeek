@@ -2,6 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBar = document.getElementById('searchBar');
     const animeList = document.getElementById('animeList');
     const animeItems = animeList.getElementsByTagName('li');
+    
+    const modal = document.getElementById('animeModal');
+    const modalContent = document.querySelector('.modal-content');
+    const closeModal = document.querySelector('.close');
+    const animeTitle = document.getElementById('animeTitle');
+    const animeSynopsis = document.getElementById('animeSynopsis');
+    const animeEpisodes = document.getElementById('animeEpisodes');
 
     searchBar.addEventListener('keyup', () => {
         const searchTerm = searchBar.value.toLowerCase();
@@ -22,6 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
     function fetchAnimeDetails(animeId) {
         const url = `https://api.jikan.moe/v4/anime/${animeId}`;
         fetch(url)
@@ -34,8 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayAnimeDetails(animeDetails) {
-        // Display anime details in a modal or a new section
-        console.log(animeDetails);
-        alert(`Title: ${animeDetails.title}\nEpisodes: ${animeDetails.episodes}\nSynopsis: ${animeDetails.synopsis}`);
+        animeTitle.textContent = animeDetails.title;
+        animeSynopsis.textContent = animeDetails.synopsis;
+        animeEpisodes.textContent = `Episodes: ${animeDetails.episodes}`;
+        modal.style.display = 'block';
     }
 });

@@ -20,14 +20,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayAnimeDetails(animeDetails) {
         animeDetailsSection.innerHTML = `
-            <h2>${animeDetails.title}</h2>
-            <img src="${animeDetails.images.jpg.image_url}" alt="${animeDetails.title}">
-            <p>${animeDetails.synopsis}</p>
+            <div class="anime-header">
+                <img src="${animeDetails.images.jpg.image_url}" alt="${animeDetails.title}">
+                <div class="anime-info">
+                    <h2>${animeDetails.title}</h2>
+                    <h3>${animeDetails.title_english}</h3>
+                    <div class="genres">
+                        ${animeDetails.genres.map(genre => `<span class="genre">${genre.name}</span>`).join('')}
+                    </div>
+                </div>
+            </div>
+            <p class="synopsis">${animeDetails.synopsis}</p>
             <div class="anime-meta">
-                <p><strong>Score:</strong> ${animeDetails.score}</p>
-                <p><strong>Episodes:</strong> ${animeDetails.episodes}</p>
-                <p><strong>Type:</strong> ${animeDetails.type}</p>
-                <p><strong>Genres:</strong> ${animeDetails.genres.map(genre => genre.name).join(', ')}</p>
+                <div class="meta-item"><strong>Format:</strong> ${animeDetails.type}</div>
+                <div class="meta-item"><strong>Status:</strong> ${animeDetails.status}</div>
+                <div class="meta-item"><strong>Rating:</strong> ${animeDetails.rating}</div>
+                <div class="meta-item"><strong>Start Date:</strong> ${animeDetails.aired.from}</div>
+                <div class="meta-item"><strong>End Date:</strong> ${animeDetails.aired.to}</div>
+                <div class="meta-item"><strong>Episodes:</strong> ${animeDetails.episodes}</div>
+                <div class="meta-item"><strong>Duration:</strong> ${animeDetails.duration}</div>
+                <div class="meta-item"><strong>Season:</strong> ${animeDetails.season}</div>
+                <div class="meta-item"><strong>Country:</strong> ${animeDetails.source}</div>
+                <div class="meta-item"><strong>Adult:</strong> ${animeDetails.explicit_genres.length > 0 ? 'Yes' : 'No'}</div>
+                <div class="meta-item"><strong>Studios:</strong> ${animeDetails.studios.map(studio => studio.name).join(', ')}</div>
             </div>
             <h3>Episodes</h3>
             <div id="episodeList">

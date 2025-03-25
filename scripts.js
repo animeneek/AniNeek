@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     animeList.addEventListener('click', (event) => {
         if (event.target.tagName === 'A') {
+            event.preventDefault();  // Prevent default anchor behavior
             const animeId = event.target.parentElement.getAttribute('data-id');
             fetchAnimeDetails(animeId);
         }

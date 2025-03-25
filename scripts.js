@@ -53,8 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchTerm = searchBar.value.toLowerCase();
         const filteredData = animeData.filter(anime => {
             const malId = anime['data-mal-id'];
-            const title = `Anime ${malId}`.toLowerCase();
-            return title.includes(searchTerm);
+            return fetch(`https://api.jikan.moe/v4/anime/${malId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const title = data.data.title.toLowerCase();
+                    const englishTitle = data.data.title_english.toLowerCase();
+                    return title.includes(searchTerm) || englishTitle.includes(searchTerm);
+                });
         });
         currentPage = 1;
         displayAnimeGrid(filteredData, currentPage);

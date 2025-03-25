@@ -1,21 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchBar = document.getElementById('searchBar');
-    const animeList = document.getElementById('animeList');
+    const animeGrid = document.getElementById('animeGrid');
+    const prevPageButton = document.getElementById('prevPage');
+    const nextPageButton = document.getElementById('nextPage');
+    let currentPage = 1;
+    let animeData = [];
 
     // Fetch and parse the JSON data
     fetch('animeneek.json')
         .then(response => response.json())
         .then(data => {
-            displayAnimeList(data);
+            animeData = data;
+            displayAnimeGrid(animeData, currentPage);
         })
         .catch(error => console.error('Error fetching JSON data:', error));
 
-    function displayAnimeList(data) {
-        animeList.innerHTML = ''; // Clear existing list
-        data.forEach(anime => {
+    function displayAnimeGrid(data, page) {
+        const itemsPerPage = 12;
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedData = data.slice(startIndex, endIndex);
+
+        animeGrid.innerHTML = ''; // Clear existing grid
+
+        paginatedData.forEach(anime => {
             const malId = anime['data-mal-id'];
             fetchAnimeDetails(malId, anime);
         });
+
+        prevPageButton.disabled = page === 1;
+        nextPageButton.disabled = endIndex >= data.length;
     }
 
     function fetchAnimeDetails(malId, anime) {
@@ -24,26 +38,37 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 const animeDetails = data.data;
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    <img src="${animeDetails.images.jpg.image_url}" alt="${animeDetails.title}" width="50">
-                    <a href="anime-details.html?mal_id=${malId}">${animeDetails.title}</a>
+                const animeCard = document.createElement('div');
+                animeCard.className = 'anime-card';
+                animeCard.innerHTML = `
+                    <img src="${animeDetails.images.jpg.image_url}" alt="${animeDetails.title}">
+                    <h3><a href="anime-details.html?mal_id=${malId}">${animeDetails.title}</a></h3>
                 `;
-                animeList.appendChild(listItem);
+                animeGrid.appendChild(animeCard);
             })
             .catch(error => console.error('Error fetching anime details:', error));
     }
 
     searchBar.addEventListener('keyup', () => {
         const searchTerm = searchBar.value.toLowerCase();
-        const listItems = animeList.getElementsByTagName('li');
-        for (let i = 0; i < listItems.length; i++) {
-            const animeTitle = listItems[i].textContent.toLowerCase();
-            if (animeTitle.includes(searchTerm)) {
-                listItems[i].style.display = '';
-            } else {
-                listItems[i].style.display = 'none';
-            }
+        const filteredData = animeData.filter(anime => {
+            const malId = anime['data-mal-id'];
+            const title = `Anime ${malId}`.toLowerCase();
+            return title.includes(searchTerm);
+        });
+        currentPage = 1;
+        displayAnimeGrid(filteredData, currentPage);
+    });
+
+    prevPageButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayAnimeGrid(animeData, currentPage);
         }
+    });
+
+    nextPageButton.addEventListener('click', () => {
+        currentPage++;
+        displayAnimeGrid(animeData, currentPage);
     });
 });

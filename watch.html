@@ -7,14 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 id="anime-title">Loading...</h1>
-    <h2 id="episode-title"></h2>
+    <header>
+        <h1><a href="index.html" id="logo">AniNeek</a></h1>
+    </header>
 
-    <!-- Video Player -->
-    <iframe id="video-player" width="640" height="360" src="" frameborder="0" allowfullscreen></iframe>
+    <h2 id="episode-title">Loading Episode...</h2>
+    <div id="player-container">
+        <div id="video-player">Loading...</div>
+    </div>
 
-    <h3>Select Source:</h3>
-    <div id="source-buttons"></div>
+    <h3>Select Source</h3>
+    <div id="source-selection">
+        <!-- Source buttons will be inserted here -->
+    </div>
 
     <script src="watch.js"></script>
 </body>

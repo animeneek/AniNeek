@@ -1,85 +1,60 @@
-/* Basic reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('theme-toggle');
+    const videoPlayer = document.getElementById('video-player');
+    const animeVideo = document.getElementById('anime-video');
+    const videoSource = document.getElementById('video-source');
+    const closePlayer = document.getElementById('close-player');
 
-/* Body styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: white;
-    color: black;
-}
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+    });
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
-}
+    closePlayer.addEventListener('click', () => {
+        videoPlayer.style.display = 'none';
+        animeVideo.pause();
+    });
 
-header h1 {
-    font-size: 24px;
-}
+    const animeList = document.getElementById('anime-list');
 
-#theme-toggle {
-    padding: 10px 20px;
-    border: none;
-    background-color: #555;
-    color: white;
-    cursor: pointer;
-}
+    // Sample anime data
+    const animes = [
+        {
+            title: 'Attack on Titan',
+            description: 'Humans in a walled city fight against monstrous Titans.',
+            image: 'assets/attack-on-titan.jpg',
+            video: 'assets/attack-on-titan.mp4'
+        },
+        {
+            title: 'My Hero Academia',
+            description: 'A young boy dreams of becoming the greatest hero.',
+            image: 'assets/my-hero-academia.jpg',
+            video: 'assets/my-hero-academia.mp4'
+        },
+        {
+            title: 'Naruto',
+            description: 'A ninja in training seeks recognition and dreams of becoming the Hokage.',
+            image: 'assets/naruto.jpg',
+            video: 'assets/naruto.mp4'
+        }
+    ];
 
-main {
-    padding: 20px;
-}
+    animes.forEach(anime => {
+        const animeItem = document.createElement('div');
+        animeItem.classList.add('anime-item');
+        
+        animeItem.innerHTML = `
+            <img src="${anime.image}" alt="${anime.title}">
+            <h2>${anime.title}</h2>
+            <p>${anime.description}</p>
+        `;
 
-#anime-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
+        animeItem.addEventListener('click', () => {
+            videoSource.src = anime.video;
+            animeVideo.load();
+            videoPlayer.style.display = 'block';
+            animeVideo.play();
+        });
 
-.anime-item {
-    width: calc(33.333% - 20px);
-    background-color: #f5f5f5;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.anime-item img {
-    width: 100%;
-    border-radius: 5px;
-}
-
-.anime-item h2 {
-    font-size: 18px;
-    margin: 10px 0;
-}
-
-.anime-item p {
-    font-size: 14px;
-}
-
-/* Dark mode styles */
-body.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
-}
-
-body.dark-mode header {
-    background-color: #1e1e1e;
-}
-
-body.dark-mode #theme-toggle {
-    background-color: #3a3a3a;
-}
-
-body.dark-mode .anime-item {
-    background-color: #1e1e1e;
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
-}
+        animeList.appendChild(animeItem);
+    });
+});

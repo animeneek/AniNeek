@@ -22,20 +22,13 @@
         <section class="anime-list">
             <h2>Anime List</h2>
             <input type="text" id="searchBar" placeholder="Search for anime...">
-            <ul id="animeList"></ul>
+            <div id="animeGrid" class="anime-grid"></div>
+            <div class="pagination">
+                <button id="prevPage">Previous</button>
+                <button id="nextPage">Next</button>
+            </div>
         </section>
     </main>
-
-    <!-- Modal for Anime Details -->
-    <div id="animeModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="animeTitle"></h2>
-            <p id="animeSynopsis"></p>
-            <div id="animeEpisodes"></div>
-        </div>
-    </div>
-
     <footer>
         <p>&copy; 2025 AnimeNeek. All rights reserved.</p>
     </footer>

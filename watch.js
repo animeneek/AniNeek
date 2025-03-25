@@ -9,28 +9,40 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    console.log(`Fetching anime data for MAL ID: ${malId}, Episode: ${episodeNum}, Type: ${type}`);
+
     // Fetch anime details from Jikan API
     fetch(`https://api.jikan.moe/v4/anime/${malId}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById("anime-title").innerText = data.data.title;
             document.getElementById("episode-title").innerText = `Episode ${episodeNum} (${type.toUpperCase()})`;
+        })
+        .catch(error => {
+            console.error("Error fetching anime data:", error);
         });
 
     // Fetch episode links from animeneek.json
     fetch("animeneek.json")
         .then(response => response.json())
         .then(data => {
+            console.log("Loaded animeneek.json:", data); // Debugging log
+
             const animeData = data.find(item => item["data-mal-id"] == malId);
-            const episodeList = animeData ? animeData.episodes : [];
+            if (!animeData) {
+                console.warn("Anime ID not found in JSON:", malId);
+                document.body.innerHTML = "<h1>Anime not found.</h1>";
+                return;
+            }
 
-            // Find the requested episode
-            const episode = episodeList.find(ep => ep["data-ep-num"] == episodeNum && ep["data-ep-lan"].toLowerCase() === type);
-
+            const episode = animeData.episodes.find(ep => ep["data-ep-num"] == episodeNum && ep["data-ep-lan"].toLowerCase() === type);
             if (!episode) {
+                console.warn("Episode not found in JSON:", episodeNum, type);
                 document.body.innerHTML = "<h1>Episode not found.</h1>";
                 return;
             }
+
+            console.log("Found Episode Data:", episode); // Debugging log
 
             // Generate embed link based on source
             const videoId = episode["data-video-id"];
@@ -43,6 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
             } else if (episode["data-src"] === "mp4upload") {
                 embedUrl = `//mp4upload.com/v/${videoId}`;
             }
+
+            if (!embedUrl) {
+                console.error("Embed URL not generated.");
+                document.body.innerHTML = "<h1>Embed URL missing.</h1>";
+                return;
+            }
+
+            console.log("Embed URL:", embedUrl); // Debugging log
 
             // Set video player source
             document.getElementById("video-player").src = embedUrl;
@@ -67,7 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 sourceButtons.appendChild(btn2);
             }
         })
-        .catch(() => {
+        .catch(error => {
+            console.error("Error loading animeneek.json:", error);
             document.body.innerHTML = "<h1>Error loading episode data.</h1>";
         });
 });

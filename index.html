@@ -1,22 +1,90 @@
-<!-- Add this inside the <section class="filters"> -->
-<div class="filter-dropdown">
-    <label for="genre">Genre</label>
-    <select id="genre" multiple>
-        <!-- Genre options will go here -->
-    </select>
-</div>
-<div class="filter-dropdown">
-    <label for="tags">Tags</label>
-    <select id="tags" multiple>
-        <!-- Tags options will go here -->
-    </select>
-</div>
-<div class="filter-dropdown">
-    <label for="year">Year</label>
-    <select id="year">
-        <!-- Year options will go here -->
-    </select>
-</div>
-<!-- Add more filters similarly -->
-<button id="apply-filters">Apply Filters</button>
-<button id="reset-filters">Reset Filters</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniNeek</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">AniNeek</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for anime..." id="search-box">
+                <button id="search-button">Search</button>
+                <button id="random-button">Random Anime</button>
+            </div>
+            <div class="mode-toggle">
+                <button id="toggle-button">Light/Dark Mode</button>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!-- Filters Section -->
+        <section class="filters">
+            <div class="filter-dropdown">
+                <label for="genre">Genre</label>
+                <select id="genre" multiple>
+                    <!-- Genre options will go here -->
+                </select>
+            </div>
+            <div class="filter-dropdown">
+                <label for="tags">Tags</label>
+                <select id="tags" multiple>
+                    <!-- Tags options will go here -->
+                </select>
+            </div>
+            <div class="filter-dropdown">
+                <label for="year">Year</label>
+                <select id="year">
+                    <!-- Year options will go here -->
+                </select>
+            </div>
+            <!-- Add more filters similarly -->
+            <button id="apply-filters">Apply Filters</button>
+            <button id="reset-filters">Reset Filters</button>
+        </section>
+        <!-- Anime List Section -->
+        <section class="anime-list">
+            <!-- Anime cards will go here -->
+        </section>
+        <!-- Tabs Section -->
+        <section class="tabs">
+            <div class="tab-header">
+                <button class="tab-button active" data-tab="newest">Newest</button>
+                <button class="tab-button" data-tab="popular">Popular</button>
+                <button class="tab-button" data-tab="top-rated">Top Rated</button>
+                <div class="pagination">
+                    <button id="prev-page">&lt;</button>
+                    <span id="current-page">1</span>
+                    <button id="next-page">&gt;</button>
+                </div>
+            </div>
+            <div class="tab-content">
+                <!-- Tab content will go here -->
+            </div>
+        </section>
+    </main>
+    <aside>
+        <!-- Widgets Section -->
+        <section class="widgets">
+            <!-- Top Airing List Widget -->
+            <div class="widget" id="top-airing">
+                <h2>Top Airing</h2>
+                <ul>
+                    <!-- Top Airing Anime List -->
+                </ul>
+            </div>
+            <!-- Upcoming Anime List Widget -->
+            <div class="widget" id="upcoming-anime">
+                <h2>Upcoming Anime</h2>
+                <ul>
+                    <!-- Upcoming Anime List -->
+                </ul>
+            </div>
+        </section>
+    </aside>
+    <script src="scripts.js"></script>
+</body>
+</html>

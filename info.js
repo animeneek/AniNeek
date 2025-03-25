@@ -1,50 +1,55 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const animeTitle = document.getElementById("anime-title");
+    const animeImage = document.getElementById("anime-image");
+    const animeSynopsis = document.getElementById("anime-synopsis");
+    const animeScore = document.getElementById("anime-score");
+    const animeGenres = document.getElementById("anime-genres");
+    const episodeList = document.getElementById("episode-list");
+
     const urlParams = new URLSearchParams(window.location.search);
     const malId = urlParams.get("id");
 
-    if (!malId) {
-        document.getElementById("anime-title").innerText = "Anime ID not found.";
-        return;
-    }
-
-    // Fetch anime details from Jikan API
+    // Fetch anime data from Jikan API
     fetch(`https://api.jikan.moe/v4/anime/${malId}`)
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
             const anime = data.data;
-            document.getElementById("anime-title").innerText = anime.title;
-            document.getElementById("anime-image").src = anime.images.jpg.large_image_url;
-            document.getElementById("anime-synopsis").innerText = anime.synopsis;
-            document.getElementById("anime-score").innerText = anime.score;
-            document.getElementById("anime-genres").innerText = anime.genres.map(g => g.name).join(", ");
+            animeTitle.textContent = anime.title;
+            animeImage.src = anime.images.jpg.image_url;
+            animeSynopsis.textContent = anime.synopsis;
+            animeScore.textContent = anime.score;
+            animeGenres.textContent = anime.genres.map(genre => genre.name).join(", ");
         })
-        .catch(() => {
-            document.getElementById("anime-title").innerText = "Error loading anime data.";
+        .catch(error => {
+            console.error("Error fetching anime data:", error);
+            animeTitle.textContent = "Error loading anime details.";
         });
 
-    // Fetch episodes from animeneek.json
+    // Fetch episode links from animeneek.json
     fetch("animeneek.json")
-        .then((response) => response.json())
-        .then((data) => {
-            const animeData = data.find(item => item["data-mal-id"] == malId);
-            const episodeList = document.getElementById("episode-list");
+        .then(response => response.json())
+        .then(json => {
+            const animeEpisodes = json.find(item => item["data-mal-id"] == malId);
 
-            if (!animeData) {
-                episodeList.innerText = "No episodes found.";
-                return;
+            if (animeEpisodes) {
+                let episodeLinksHtml = "";
+                animeEpisodes.episodes.forEach(episode => {
+                    episodeLinksHtml += `
+                        <div>
+                            <h4>Episode ${episode["data-ep-num"]} - ${episode["data-ep-lan"]}</h4>
+                            <a href="watch.html?id=${malId}&ep=${episode["data-ep-num"]}&type=${episode["data-ep-lan"].toLowerCase()}">
+                                Watch Episode
+                            </a>
+                        </div>
+                    `;
+                });
+                episodeList.innerHTML = episodeLinksHtml;
+            } else {
+                episodeList.innerHTML = `<p>No episodes found for this anime.</p>`;
             }
-
-            episodeList.innerHTML = "";
-            animeData.episodes.forEach(ep => {
-                const epButton = document.createElement("button");
-                epButton.innerText = `Episode ${ep["data-ep-num"]} (${ep["data-ep-lan"]})`;
-                epButton.onclick = () => {
-                    window.location.href = `watch.html?id=${malId}&ep=${ep["data-ep-num"]}&type=${ep["data-ep-lan"].toLowerCase()}`;
-                };
-                episodeList.appendChild(epButton);
-            });
         })
-        .catch(() => {
-            document.getElementById("episode-list").innerText = "Error loading episodes.";
+        .catch(error => {
+            console.error("Error fetching episode links:", error);
+            episodeList.innerHTML = "<p>Failed to load episodes. Please try again later.</p>";
         });
 });

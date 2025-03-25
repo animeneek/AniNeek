@@ -1,55 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchBar = document.getElementById('searchBar');
     const animeGrid = document.getElementById('animeGrid');
-    const prevPageButton = document.getElementById('prevPage');
-    const nextPageButton = document.getElementById('nextPage');
+    const sortSelect = document.getElementById('sortSelect');
+    const loading = document.getElementById('loading');
     let currentPage = 1;
     let animeData = [];
     let animeDetailsCache = {};
+    let isLoading = false;
+    let sortOption = 'newest';
 
     // Fetch and parse the JSON data
     fetch('animeneek.json')
         .then(response => response.json())
         .then(data => {
             animeData = data;
-            // Pre-fetch all anime details to cache
-            animeData.forEach(anime => {
-                const malId = anime['data-mal-id'];
-                fetchAnimeDetails(malId, anime);
-            });
-            displayAnimeGrid(animeData, currentPage);
+            loadMoreAnime();
         })
         .catch(error => console.error('Error fetching JSON data:', error));
 
-    function displayAnimeGrid(data, page) {
-        const itemsPerPage = 20;
-        const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const paginatedData = data.slice(startIndex, endIndex);
+    function loadMoreAnime() {
+        if (isLoading) return;
+        isLoading = true;
+        loading.style.display = 'block';
 
-        animeGrid.innerHTML = ''; // Clear existing grid
+        const itemsPerPage = 20;
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedData = animeData.slice(startIndex, endIndex);
 
         paginatedData.forEach(anime => {
             const malId = anime['data-mal-id'];
             if (animeDetailsCache[malId]) {
                 const animeDetails = animeDetailsCache[malId];
                 createAnimeCard(animeDetails);
+            } else {
+                fetchAnimeDetails(malId, anime);
             }
         });
 
-        prevPageButton.disabled = page === 1;
-        nextPageButton.disabled = endIndex >= data.length;
-
-        // Update URL with current page
-        const url = new URL(window.location);
-        url.searchParams.set('page', page);
-        window.history.pushState({}, '', url);
-
-        // Smooth fade-in animation
-        animeGrid.classList.remove('visible');
-        setTimeout(() => {
-            animeGrid.classList.add('visible');
-        }, 100);
+        currentPage++;
+        isLoading = false;
+        loading.style.display = 'none';
     }
 
     function fetchAnimeDetails(malId, anime) {
@@ -59,9 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 const animeDetails = data.data;
                 animeDetailsCache[malId] = animeDetails;
-                if (currentPage === 1) {
-                    createAnimeCard(animeDetails);
-                }
+                createAnimeCard(animeDetails);
             })
             .catch(error => console.error('Error fetching anime details:', error));
     }
@@ -78,7 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchBar.addEventListener('keyup', () => {
         const searchTerm = searchBar.value.toLowerCase();
-        const filteredData = animeData.filter(anime => {
+        animeGrid.innerHTML = '';
+        currentPage = 1;
+        animeData = animeData.filter(anime => {
             const malId = anime['data-mal-id'];
             const animeDetails = animeDetailsCache[malId];
             if (animeDetails) {
@@ -88,26 +79,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return false;
         });
-        currentPage = 1;
-        displayAnimeGrid(filteredData, currentPage);
+        loadMoreAnime();
     });
 
-    prevPageButton.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displayAnimeGrid(animeData, currentPage);
+    sortSelect.addEventListener('change', (event) => {
+        sortOption = event.target.value;
+        sortAnimeData();
+        animeGrid.innerHTML = '';
+        currentPage = 1;
+        loadMoreAnime();
+    });
+
+    function sortAnimeData() {
+        animeData.sort((a, b) => {
+            const aId = a['data-mal-id'];
+            const bId = b['data-mal-id'];
+            const aDetails = animeDetailsCache[aId];
+            const bDetails = animeDetailsCache[bId];
+            if (sortOption === 'newest') {
+                return new Date(bDetails.aired.from) - new Date(aDetails.aired.from);
+            } else if (sortOption === 'popular') {
+                return bDetails.popularity - aDetails.popularity;
+            } else if (sortOption === 'top') {
+                return bDetails.score - aDetails.score;
+            }
+        });
+    }
+
+    window.addEventListener('scroll', () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 && !isLoading) {
+            loadMoreAnime();
         }
     });
-
-    nextPageButton.addEventListener('click', () => {
-        currentPage++;
-        displayAnimeGrid(animeData, currentPage);
-    });
-
-    // Check for 'page' parameter in URL and set current page
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('page')) {
-        currentPage = parseInt(urlParams.get('page'));
-        displayAnimeGrid(animeData, currentPage);
-    }
 });

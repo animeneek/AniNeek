@@ -3,113 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniNeek v4</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Anime Streaming</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <div class="top-bar">
-            <div class="logo">AniNeek</div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search for anime..." id="search-box">
-                <button id="search-button">Search</button>
-                <button id="random-button">Random Anime</button>
-            </div>
-            <div class="mode-toggle">
-                <button id="toggle-button">Light/Dark Mode</button>
-            </div>
-        </div>
+        <h1>Anime Streaming</h1>
     </header>
     <main>
-        <!-- Filters Section -->
-        <section class="filters">
-            <div class="filter-dropdown">
-                <label for="genre">Genre</label>
-                <select id="genre" multiple></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="tags">Tags</label>
-                <select id="tags" multiple></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="year">Year</label>
-                <select id="year"></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="status">Status</label>
-                <select id="status"></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="type">Type</label>
-                <select id="type"></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="season">Season</label>
-                <select id="season"></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="source-material">Source Material</label>
-                <select id="source-material"></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="country-of-origin">Country of Origin</label>
-                <select id="country-of-origin"></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="language">Language</label>
-                <select id="language"></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="adult-content">Adult Content</label>
-                <select id="adult-content"></select>
-            </div>
-            <div class="filter-dropdown">
-                <label for="sort-by">Sort By</label>
-                <select id="sort-by"></select>
-            </div>
-            <button id="apply-filters">Apply Filters</button>
-            <button id="reset-filters">Reset Filters</button>
-        </section>
-        <!-- Anime List Section -->
-        <section class="anime-list">
-            <!-- Anime cards will go here -->
-        </section>
-        <!-- Tabs Section -->
-        <section class="tabs">
-            <div class="tab-header">
-                <button class="tab-button active" data-tab="newest">Newest</button>
-                <button class="tab-button" data-tab="popular">Popular</button>
-                <button class="tab-button" data-tab="top-rated">Top Rated</button>
-                <div class="pagination">
-                    <button id="prev-page">&lt;</button>
-                    <span id="current-page">1</span>
-                    <button id="next-page">&gt;</button>
-                </div>
-            </div>
-            <div class="tab-content">
-                <!-- Tab content will go here -->
-            </div>
+        <section id="anime-list">
+            <!-- Anime listings will go here -->
         </section>
     </main>
-    <aside>
-        <!-- Widgets Section -->
-        <section class="widgets">
-            <!-- Top Airing List Widget -->
-            <div class="widget" id="top-airing">
-                <h2>Top Airing</h2>
-                <ul>
-                    <!-- Top Airing Anime List -->
-                </ul>
-            </div>
-            <!-- Upcoming Anime List Widget -->
-            <div class="widget" id="upcoming-anime">
-                <h2>Upcoming Anime</h2>
-                <ul>
-                    <!-- Upcoming Anime List -->
-                </ul>
-            </div>
-        </section>
-    </aside>
-    <script src="scripts.js"></script>
+    <footer>
+        <p>&copy; 2025 Anime Streaming</p>
+    </footer>
 </body>
 </html>

@@ -4,10 +4,10 @@ document.getElementById('toggle-button').addEventListener('click', function () {
 
 async function fetchFilters() {
     try {
-        // Fetch genres, tags, years, etc., and populate the filters
-        const response = await fetch('https://api.jikan.moe/v4/genres/anime');
-        const data = await response.json();
-        const genres = data.data;
+        const genreResponse = await fetch('https://api.jikan.moe/v4/genres/anime');
+        const genreData = await genreResponse.json();
+        const genres = genreData.data;
+
         const genreSelect = document.getElementById('genre');
         genres.forEach(genre => {
             const option = document.createElement('option');
@@ -15,6 +15,8 @@ async function fetchFilters() {
             option.textContent = genre.name;
             genreSelect.appendChild(option);
         });
+
+        // Populate other filters similarly
     } catch (error) {
         console.error('Error fetching filters:', error);
     }
@@ -22,28 +24,31 @@ async function fetchFilters() {
 
 async function fetchAnimeList() {
     try {
-        // Fetch anime list and display in the anime-list section
-        const response = await fetch('https://api.jikan.moe/v4/top/anime');
+        const response = await fetch('animeneek.json');
         const data = await response.json();
-        const animeList = data.data;
         const animeListSection = document.querySelector('.anime-list');
-        animeList.forEach(anime => {
+
+        for (const anime of data) {
+            const animeDetailsResponse = await fetch(`https://api.jikan.moe/v4/anime/${anime['data-mal-id']}`);
+            const animeDetails = await animeDetailsResponse.json();
+            const animeInfo = animeDetails.data;
+
             const animeCard = document.createElement('div');
             animeCard.classList.add('anime-card');
             animeCard.innerHTML = `
-                <img src="${anime.images.jpg.image_url}" alt="${anime.title}">
+                <img src="${animeInfo.images.jpg.image_url}" alt="${animeInfo.title}">
                 <div class="anime-info">
-                    <h3>${anime.title}</h3>
-                    <p>${anime.type} | ${anime.year}</p>
+                    <h3>${animeInfo.title}</h3>
+                    <p>${animeInfo.type} | ${animeInfo.year}</p>
                     <p>
-                        ${anime.sub ? 'S' : ''} 
-                        ${anime.dub ? 'D' : ''} 
-                        ${anime.raw ? 'R' : ''}
+                        ${anime.episodes.some(ep => ep['data-ep-lan'] === 'Sub') ? 'S' : ''}
+                        ${anime.episodes.some(ep => ep['data-ep-lan'] === 'Dub') ? 'D' : ''}
+                        ${anime.episodes.some(ep => ep['data-ep-lan'] === 'Raw') ? 'R' : ''}
                     </p>
                 </div>
             `;
             animeListSection.appendChild(animeCard);
-        });
+        }
     } catch (error) {
         console.error('Error fetching anime list:', error);
     }

@@ -48,11 +48,46 @@ header {
     margin: 20px 0;
 }
 
+.filter-dropdown {
+    margin-bottom: 10px;
+}
+
+.filter-dropdown label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.filter-dropdown select {
+    width: 100%;
+    padding: 5px;
+}
+
 .anime-list {
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
     background-color: #fff;
+}
+
+.anime-card {
+    width: 150px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #e4e4e4;
+    transition: background-color 0.3s;
+}
+
+.anime-card:hover {
+    background-color: #ccc;
+}
+
+.anime-card img {
+    width: 100%;
+    height: auto;
+}
+
+.anime-info {
+    text-align: center;
 }
 
 .tabs {

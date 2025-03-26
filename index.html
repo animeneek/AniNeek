@@ -12,6 +12,58 @@
     <!-- Include Header -->
     <div id="header"></div>
 
+    <!-- Slider Section -->
+    <section id="slider">
+        <!-- Placeholder for slider items -->
+        <div class="slider-container">
+            <div class="anime-item">
+                <a href="#">
+                    <div class="poster-container">
+                        <img src="https://via.placeholder.com/220x306" alt="Anime Title" class="anime-poster">
+                        <div class="overlay"></div>
+                        <div class="play-button"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </a>
+                <div class="anime-title">Anime Title</div>
+                <div class="anime-details">
+                    <span class="detail-box">TV</span>
+                    <span class="detail-box">12 EPS</span>
+                    <span class="detail-box sub">SUB</span>
+                    <span class="detail-box dub">DUB</span>
+                    <span class="detail-box">Fin</span>
+                </div>
+            </div>
+            <!-- Repeat similar blocks for more slider items -->
+        </div>
+    </section>
+
+    <!-- Tabs Section -->
+    <section id="tabs">
+        <div class="tab-container">
+            <div class="tab-header">
+                <ul class="tab-list">
+                    <li class="tab-item active" data-tab="newest">NEWEST</li>
+                    <li class="tab-item" data-tab="popular">POPULAR</li>
+                    <li class="tab-item" data-tab="top-rated">TOP RATED</li>
+                </ul>
+                <div class="tab-nav">
+                    <button class="tab-nav-button" id="prev-set">&lt;</button>
+                    <span id="current-set">1</span>
+                    <button class="tab-nav-button" id="next-set">&gt;</button>
+                </div>
+            </div>
+            <div class="tab-content" id="newest">
+                <!-- Placeholder for newest anime items -->
+            </div>
+            <div class="tab-content" id="popular" style="display: none;">
+                <!-- Placeholder for popular anime items -->
+            </div>
+            <div class="tab-content" id="top-rated" style="display: none;">
+                <!-- Placeholder for top rated anime items -->
+            </div>
+        </div>
+    </section>
+
     <script>
         fetch("header.html")
             .then(response => response.text())
@@ -20,6 +72,55 @@
                 // Initialize search and random functionality after loading the header
                 initializeSearchAndRandom();
             });
+
+        // Slider initialization (example)
+        function initializeSlider() {
+            // Fetch and display random anime items
+        }
+
+        // Tabs initialization
+        function initializeTabs() {
+            const tabItems = document.querySelectorAll('.tab-item');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const currentSet = document.getElementById('current-set');
+            let setNumber = 1;
+            const maxSet = 5;
+
+            tabItems.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabItems.forEach(item => item.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    tabContents.forEach(content => content.style.display = 'none');
+                    document.getElementById(tab.getAttribute('data-tab')).style.display = 'block';
+                });
+            });
+
+            document.getElementById('prev-set').addEventListener('click', () => {
+                if (setNumber > 1) {
+                    setNumber--;
+                    currentSet.textContent = setNumber;
+                    loadTabContent(setNumber);
+                }
+            });
+
+            document.getElementById('next-set').addEventListener('click', () => {
+                if (setNumber < maxSet) {
+                    setNumber++;
+                    currentSet.textContent = setNumber;
+                    loadTabContent(setNumber);
+                }
+            });
+
+            function loadTabContent(set) {
+                // Fetch and display anime items for the selected tab and set number
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeSlider();
+            initializeTabs();
+        });
     </script>
 
     <script src="index.js"></script>

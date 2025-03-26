@@ -3,40 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniNeek v12.32</title>
+    <title>AniNeek - Watch Anime</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
-    <link rel="icon" type="image/png" href="public/favicon-image.png">
+    <script src="https://kit.fontawesome.com/YOUR-FONT-AWESOME-CODE.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <!-- Logo -->
-        <a href="index.html" id="logo">
-            <img src="public/AniNeek_Logo copy.png" alt="AniNeek Logo">
-        </a>
 
-        <!-- Search Box -->
+    <!-- Header (Same for All Pages) -->
+    <header>
+        <img src="public/AniNeek_Logo copy.png" id="logo" alt="AniNeek">
+        
         <div class="search-container">
             <input type="text" id="searchBox" placeholder="Search anime...">
-            <button id="searchButton">
-                <img src="public/magnifying-glass-solid_white.svg" id="searchIcon" alt="Search">
-            </button>
+            <button id="searchButton"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
 
-        <!-- Random Button -->
-        <button id="randomButton">
-            <img src="public/random-solid_white.svg" id="randomIcon" alt="Random">
-        </button>
-
-        <!-- Dark Mode Toggle -->
-        <button id="themeToggle">
-            <img src="public/moon-solid_white.svg" id="themeIcon" alt="Toggle Theme">
-        </button>
+        <button id="randomButton"><i class="fa-solid fa-shuffle"></i></button>
+        
+        <button id="themeToggle"><i class="fa-solid fa-moon"></i></button>
     </header>
 
-    <main>
-        <h1>Welcome to AniNeek</h1>
-    </main>
+    <main id="animeResults"></main>
+
+    <script src="index.js"></script>
+    <script src="theme.js"></script>
+
 </body>
 </html>

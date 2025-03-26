@@ -154,3 +154,134 @@ main {
 .pagination-link:hover {
     background: #444;
 }
+
+/* Smoky Section */
+#smokySection {
+    position: relative;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent smoky background */
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#posterOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+#posterOverlay img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#animeInfo {
+    display: flex;
+    align-items: flex-start;
+}
+
+#animePortrait {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+#animeDetails {
+    flex-grow: 1;
+}
+
+#animeDetails h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#animeDetails h2 {
+    font-size: 18px;
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+#animeDetails p {
+    margin-bottom: 10px;
+}
+
+/* Anime Details Table */
+#animeDetailsTable {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#animeDetailsTable th, #animeDetailsTable td {
+    padding: 10px;
+    border: 1px solid #444;
+}
+
+#animeDetailsTable th {
+    background: #333;
+    text-align: left;
+}
+
+/* Sub, Dub, and Raw Sections */
+#subDubRawSections {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.sectionContainer {
+    flex: 1;
+    margin: 0 10px;
+    padding: 20px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.dropdownContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.dropdownContainer select, .dropdownContainer input {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background: #333;
+    color: #fff;
+}
+
+.episodeButtons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.episodeButtons button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.episodeButtons button:hover {
+    background: #444;
+}

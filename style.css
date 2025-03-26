@@ -34,6 +34,12 @@ main {
     margin-top: 80px; /* Adjust this value based on your header height */
 }
 
+/* Search Title Styling */
+#searchTitle {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
 /* Logo */
 #logo {
     height: 40px;
@@ -80,7 +86,7 @@ main {
 /* Grid Container */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr); /* Increased number of items per row */
     gap: 20px;
     padding: 20px;
 }
@@ -94,7 +100,7 @@ main {
     text-align: center;
     background: #222;
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-    width: 172px;
+    width: 200px; /* Increased card size */
 }
 
 .anime-item:hover {
@@ -104,8 +110,8 @@ main {
 }
 
 .anime-item img.anime-poster {
-    width: 172px;
-    height: 238px;
+    width: 200px; /* Increased poster size */
+    height: 276px; /* Maintaining aspect ratio */
     object-fit: cover;
 }
 

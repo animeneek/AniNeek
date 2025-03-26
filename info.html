@@ -13,14 +13,65 @@
     <div id="header"></div>
 
     <main>
-        <h1 id="anime-title">Loading...</h1>
-        <img id="anime-image" src="" alt="Anime Image" style="width: 200px; border-radius: 10px;">
-        <p id="anime-synopsis"></p>
-        <p><strong>Score:</strong> <span id="anime-score"></span></p>
-        <p><strong>Genres:</strong> <span id="anime-genres"></span></p>
+        <!-- Smoky Section with Background Poster -->
+        <div id="smokySection">
+            <div id="posterOverlay">
+                <img id="animePoster" src="" alt="Anime Poster">
+            </div>
+            <div id="animeInfo">
+                <img id="animePortrait" src="" alt="Anime Portrait">
+                <div id="animeDetails">
+                    <h1 id="animeTitle">Loading...</h1>
+                    <h2 id="animeEnglishTitle"></h2>
+                    <p id="animeRating"></p>
+                    <p id="animeGenre"></p>
+                    <p id="animeThemes"></p>
+                    <p id="animeDemographic"></p>
+                    <p id="animeSynopsis"></p>
+                </div>
+            </div>
+        </div>
 
-        <h2>Episodes</h2>
-        <div id="episode-list">Loading episodes...</div>
+        <!-- Additional Anime Details Table -->
+        <table id="animeDetailsTable">
+            <tr><th>Type</th><td id="animeType"></td></tr>
+            <tr><th>Episodes</th><td id="animeEpisodes"></td></tr>
+            <tr><th>Status</th><td id="animeStatus"></td></tr>
+            <tr><th>Aired</th><td id="animeAired"></td></tr>
+            <tr><th>Premiered</th><td id="animePremiered"></td></tr>
+            <tr><th>Duration</th><td id="animeDuration"></td></tr>
+            <tr><th>Score</th><td id="animeScore"></td></tr>
+            <tr><th>Studio</th><td id="animeStudio"></td></tr>
+            <tr><th>Producers</th><td id="animeProducers"></td></tr>
+        </table>
+
+        <!-- Sub, Dub, and Raw Sections -->
+        <div id="subDubRawSections">
+            <div class="sectionContainer">
+                <h3>Sub</h3>
+                <div class="dropdownContainer">
+                    <select id="subEpisodeRange"></select>
+                    <input type="number" id="subEpisodeFilter" placeholder="Episode Number">
+                </div>
+                <div class="episodeButtons" id="subEpisodeButtons"></div>
+            </div>
+            <div class="sectionContainer">
+                <h3>Dub</h3>
+                <div class="dropdownContainer">
+                    <select id="dubEpisodeRange"></select>
+                    <input type="number" id="dubEpisodeFilter" placeholder="Episode Number">
+                </div>
+                <div class="episodeButtons" id="dubEpisodeButtons"></div>
+            </div>
+            <div class="sectionContainer">
+                <h3>Raw</h3>
+                <div class="dropdownContainer">
+                    <select id="rawEpisodeRange"></select>
+                    <input type="number" id="rawEpisodeFilter" placeholder="Episode Number">
+                </div>
+                <div class="episodeButtons" id="rawEpisodeButtons"></div>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -34,7 +85,6 @@
     </script>
 
     <script src="info.js"></script>
-    <script src="theme.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

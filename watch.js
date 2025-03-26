@@ -16,16 +16,26 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             document.getElementById("anime-title").innerText = data.data.title;
-            document.getElementById("episode-title").innerText = `Episode ${episodeNum} (${type.toUpperCase()})`;
+            document.getElementById("episode-title").innerText = `Episode ${episodeNum} - ${type}`;
 
             // Fetch episode synopsis if available
             const episode = data.data.episodes.find(ep => ep.mal_id == episodeNum);
-            if (episode && episode.synopsis) {
-                document.getElementById("episode-synopsis").innerText = episode.synopsis;
+            if (episode) {
+                if (episode.title) {
+                    document.getElementById("episode-title").innerText = episode.title;
+                }
+                if (episode.aired) {
+                    document.getElementById("episode-release-date").innerText = `Aired: ${episode.aired}`;
+                }
+                if (episode.synopsis) {
+                    document.getElementById("episode-synopsis").innerText = episode.synopsis;
+                }
             }
         })
         .catch(error => {
             console.error("Error fetching anime data:", error);
+            // Display default episode info if data fetching fails
+            document.getElementById("episode-title").innerText = `Episode ${episodeNum} - ${type.toUpperCase()}`;
         });
 
     // Fetch episode links from animeneek.json

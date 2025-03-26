@@ -12,6 +12,7 @@ body {
     color: #fff;
     transition: background 0.3s, color 0.3s;
     padding: 20px; /* Added padding for better appearance */
+    padding-top: 100px; /* Ensure padding does not affect header */
 }
 
 /* Header Styling */
@@ -30,7 +31,7 @@ header {
 
 /* Main Content */
 main {
-    margin-top: 80px; /* Adjust this value based on your header height */
+    margin-top: 20px; /* Adjust this value based on your header height */
 }
 
 /* Logo */

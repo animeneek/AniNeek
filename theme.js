@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function applyTheme() {
         if (localStorage.getItem("theme") === "light") {
             document.body.classList.add("light-mode");
-            toggleButton.textContent = "🌞";
+            toggleButton.innerHTML = '<i class="fa-solid fa-sun"></i>';
         } else {
             document.body.classList.remove("light-mode");
-            toggleButton.textContent = "🌙";
+            toggleButton.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
     }
 

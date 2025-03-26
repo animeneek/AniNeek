@@ -127,8 +127,8 @@ main {
 }
 
 .anime-item img.anime-poster {
-    width: 220px; /* Increased poster size */
-    height: 306px; /* Maintaining aspect ratio */
+    width: 100%; /* Adjusted to fill the container */
+    height: auto; /* Maintain aspect ratio */
     object-fit: cover;
 }
 

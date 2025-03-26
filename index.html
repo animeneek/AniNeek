@@ -3,41 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniNeek - v14.33</title>
+    <title>AniNeek</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/YOUR-FONT-AWESOME-CODE.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <!-- Header (Same for All Pages) -->
-    <header>
-        <img src="/anineek/public/AniNeek_Logo copy.png" id="logo" alt="AniNeek">
+<header>
+    <!-- Logo (Left Side) -->
+    <img id="logo" src="logo.png" alt="AniNeek Logo">
 
-        <div class="search-container">
-            <input type="text" id="searchBox" placeholder="Search anime...">
-            <button id="searchButton">
-                <img src="public/magnifying-glass-solid_black.svg" class="icon-light">
-                <img src="public/magnifying-glass-solid_white.svg" class="icon-dark">
-            </button>
-        </div>
-
-        <!-- Random Button (Placed immediately after search box) -->
-        <button id="randomButton">
-            <img src="public/random-solid_black.svg" class="icon-light">
-            <img src="public/random-solid_white.svg" class="icon-dark">
+    <!-- Search Box (Middle) -->
+    <div class="search-container">
+        <input type="text" id="searchBox" placeholder="Search anime...">
+        <button id="searchButton">
+            <img src="search.svg" alt="Search">
         </button>
+    </div>
 
-        <!-- Dark/Light Toggle (Moved to right corner) -->
-        <button id="themeToggle">
-            <img src="public/moon-solid_black.svg" class="icon-light">
-            <img src="public/sun-solid_white.svg" class="icon-dark">
-        </button>
-    </header>
+    <!-- Random Anime Button -->
+    <button id="randomButton">
+        <img src="random.svg" alt="Random Anime">
+    </button>
 
-    <main id="animeResults"></main>
+    <!-- Dark/Light Mode Toggle Button (Extreme Right) -->
+    <button id="themeToggle">
+        <img id="themeIcon" src="dark-mode.svg" alt="Toggle Theme">
+    </button>
+</header>
 
-    <script src="index.js"></script>
-    <script src="theme.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Dark/Light Mode Toggle
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    themeToggle.addEventListener("click", function () {
+        document.body.classList.toggle("light-mode");
+
+        // Change icon for dark/light mode
+        if (document.body.classList.contains("light-mode")) {
+            themeIcon.src = "light-mode.svg"; // Change to light mode icon
+        } else {
+            themeIcon.src = "dark-mode.svg"; // Change back to dark mode icon
+        }
+    });
+
+    // Search Button Click Event
+    document.getElementById("searchButton").addEventListener("click", function () {
+        let query = document.getElementById("searchBox").value.trim();
+        if (query) {
+            window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+        }
+    });
+
+    // Random Button Click Event
+    document.getElementById("randomButton").addEventListener("click", function () {
+        let randomAnimeID = Math.floor(Math.random() * 1000); // Example: Random anime ID
+        window.location.href = `info.html?id=${randomAnimeID}`;
+    });
+});
+</script>
 
 </body>
 </html>

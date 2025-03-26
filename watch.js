@@ -17,6 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             document.getElementById("anime-title").innerText = data.data.title;
             document.getElementById("episode-title").innerText = `Episode ${episodeNum} (${type.toUpperCase()})`;
+
+            // Fetch episode synopsis if available
+            const episode = data.data.episodes.find(ep => ep.mal_id == episodeNum);
+            if (episode && episode.synopsis) {
+                document.getElementById("episode-synopsis").innerText = episode.synopsis;
+            }
         })
         .catch(error => {
             console.error("Error fetching anime data:", error);
@@ -86,9 +92,73 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
                 sourceButtons.appendChild(btn2);
             }
+
+            // Highlight the current episode button
+            function highlightCurrentEpisodeButton(type) {
+                const episodeButtonsContainer = document.getElementById(`${type.toLowerCase()}EpisodeButtons`);
+                const buttons = episodeButtonsContainer.getElementsByTagName("button");
+                for (let button of buttons) {
+                    if (button.textContent == episodeNum) {
+                        button.classList.add("selected");
+                    }
+                }
+            }
+
+            // Populate episode sections
+            populateEpisodeSections(animeData.episodes, "Sub");
+            populateEpisodeSections(animeData.episodes, "Dub");
+            populateEpisodeSections(animeData.episodes, "Raw");
+            
+            // Highlight the current episode button
+            highlightCurrentEpisodeButton(type);
         })
         .catch(error => {
             console.error("Error loading animeneek.json:", error);
             document.body.innerHTML = "<h1>Error loading episode data.</h1>";
         });
-});
+
+    function populateEpisodeSections(episodes, type) {
+        const episodeRangeSelect = document.getElementById(`${type.toLowerCase()}EpisodeRange`);
+        const episodeFilterInput = document.getElementById(`${type.toLowerCase()}EpisodeFilter`);
+        const episodeButtonsContainer = document.getElementById(`${type.toLowerCase()}EpisodeButtons`);
+
+        const filteredEpisodes = episodes.filter(ep => ep["data-ep-lan"] === type);
+
+        if (filteredEpisodes.length === 0) {
+            episodeRangeSelect.disabled = true;
+            episodeFilterInput.disabled = true;
+            episodeButtonsContainer.innerHTML = "<p>No episodes available.</p>";
+            return;
+        }
+
+        const rangeSize = 100;
+        for (let i = 0; i < filteredEpisodes.length; i += rangeSize) {
+            const end = Math.min(i + rangeSize, filteredEpisodes.length);
+            const option = document.createElement("option");
+            option.value = `${i + 1}-${end}`;
+            option.textContent = `Eps ${i + 1}-${end}`;
+            episodeRangeSelect.appendChild(option);
+        }
+
+        episodeRangeSelect.addEventListener("change", function () {
+            const [start, end] = episodeRangeSelect.value.split("-").map(Number);
+            displayEpisodeButtons(filteredEpisodes.slice(start - 1, end), type);
+        });
+
+        episodeFilterInput.addEventListener("input", function () {
+            const episodeNumber = episodeFilterInput.value;
+            const filtered = filteredEpisodes.filter(ep => ep["data-ep-num"].toString().includes(episodeNumber));
+            displayEpisodeButtons(filtered, type);
+        });
+
+        displayEpisodeButtons(filteredEpisodes.slice(0, rangeSize), type);
+    }
+
+    function displayEpisodeButtons(episodes, type) {
+        const episodeButtonsContainer = document.getElementById(`${type.toLowerCase()}EpisodeButtons`);
+        episodeButtonsContainer.innerHTML = "";
+
+        episodes.forEach(ep => {
+            const button = document.createElement("button");
+            button.textContent = ep["data-ep-num"];
+            button.addEventListener("click", function

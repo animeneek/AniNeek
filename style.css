@@ -89,3 +89,15 @@ header {
     position: absolute;
     right: 20px; /* Moves it to the rightmost side */
 }
+
+/* Fix search button & random button size */
+#searchButton img, #randomButton img, #themeToggle img {
+    width: 20px;  /* Increase the size */
+    height: 20px;
+}
+
+/* Adjust button spacing */
+#searchButton, #randomButton, #themeToggle {
+    padding: 8px;
+}
+

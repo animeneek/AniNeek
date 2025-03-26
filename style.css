@@ -9,30 +9,30 @@ body {
 
 /* Header */
 header {
-    width: 100%;
-    padding: 10px 20px;
-    background-color: #333;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #333;
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
     z-index: 1000;
 }
 
 /* Logo */
-#logo img {
-    height: 40px;
+#logo {
+    width: 120px;
+    height: auto;
+    cursor: pointer;
 }
 
 /* Search Box */
-#search-container {
+.search-container {
     display: flex;
     align-items: center;
     background: #222;
-    border-radius: 20px;
+    border-radius: 30px;
     padding: 5px 10px;
 }
 
@@ -40,49 +40,54 @@ header {
     border: none;
     background: none;
     color: white;
-    padding: 5px;
-    font-size: 16px;
     outline: none;
+    padding: 8px;
     width: 200px;
+    font-size: 16px;
 }
 
 #searchButton {
-    border: none;
     background: none;
+    border: none;
     color: white;
     cursor: pointer;
     font-size: 18px;
+    padding: 5px;
 }
 
-/* Icon Buttons (Random & Dark Mode) */
-.icon-button {
-    border: none;
+/* Buttons */
+button {
     background: none;
+    border: none;
     color: white;
     font-size: 20px;
     cursor: pointer;
-    padding: 5px;
-    transition: transform 0.2s;
+    padding: 10px;
 }
 
-.icon-button:hover {
-    transform: scale(1.1);
+button:hover {
+    opacity: 0.7;
 }
 
 /* Dark Mode */
-.dark-mode {
-    background-color: #fff;
-    color: #121212;
+.light-mode {
+    background-color: #f0f0f0;
+    color: #222;
 }
 
-.dark-mode header {
-    background-color: #eee;
+.light-mode header {
+    background-color: #ddd;
 }
 
-.dark-mode #search-container {
-    background: #ddd;
+.light-mode .search-container {
+    background: #fff;
+    color: #222;
 }
 
-.dark-mode .icon-button {
+.light-mode #searchBox {
+    color: black;
+}
+
+.light-mode button {
     color: black;
 }

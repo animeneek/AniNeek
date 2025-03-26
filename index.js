@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const randomButton = document.getElementById("randomButton");
     const animeResults = document.getElementById("animeResults");
 
-    // Function to search anime
+    // Search Function
     function searchAnime() {
         const query = searchBox.value.trim();
         if (!query) return;
@@ -17,26 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     const animeItem = document.createElement("div");
                     animeItem.innerHTML = `
                         <h3>${anime.title}</h3>
-                        <a href="info.html?id=${anime.mal_id}">
-                            <img src="${anime.images.jpg.image_url}" width="150">
-                        </a>
+                        <a href="info.html?id=${anime.mal_id}"><img src="${anime.images.jpg.image_url}" width="150"></a>
                     `;
                     animeResults.appendChild(animeItem);
                 });
             });
     }
 
-    // Search button click
     searchButton.addEventListener("click", searchAnime);
-
-    // Search on Enter key
-    searchBox.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            searchAnime();
-        }
+    searchBox.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") searchAnime();
     });
 
-    // Random Anime
+    // Random Anime Function
     randomButton.addEventListener("click", function () {
         fetch("https://api.jikan.moe/v4/random/anime")
             .then(response => response.json())

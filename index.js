@@ -5,6 +5,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const animeResults = document.getElementById("animeResults");
 
     // Search Function
+    searchButton.addEventListener("click", function () {
+        searchAnime();
+    });
+
+    searchBox.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            searchAnime();
+        }
+    });
+
     function searchAnime() {
         const query = searchBox.value.trim();
         if (!query) return;
@@ -23,11 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
     }
-
-    searchButton.addEventListener("click", searchAnime);
-    searchBox.addEventListener("keypress", function (e) {
-        if (e.key === "Enter") searchAnime();
-    });
 
     // Random Anime Function
     randomButton.addEventListener("click", function () {

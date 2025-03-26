@@ -87,7 +87,9 @@ header {
     border: none;
     cursor: pointer;
     position: absolute;
-    right: 20px; /* Moves it to the rightmost side */
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 /* Fix search button & random button size */

@@ -8,7 +8,7 @@
 
 /* Body Styling */
 body {
-    background-color: #111; /* Default dark background */
+    background-color: #111;
     color: #fff;
     transition: background 0.3s, color 0.3s;
 }
@@ -33,66 +33,42 @@ header {
     z-index: 1000;
 }
 
-/* AniNeek Logo */
+/* Logo */
 #logo {
     height: 40px;
-    max-width: 100%;
-    display: block;
 }
 
 /* Search Container */
 .search-container {
     display: flex;
     align-items: center;
-    background: #333; /* Dark search box */
-    padding: 8px 12px;
+    background: #333;
+    padding: 5px;
     border-radius: 20px;
     width: 300px;
-}
-
-.light-mode .search-container {
-    background: #222; /* Keep dark even in light mode */
 }
 
 #searchBox {
     border: none;
     outline: none;
-    padding: 5px;
+    padding: 8px;
     flex-grow: 1;
     font-size: 14px;
     background: transparent;
     color: #fff;
 }
 
-.light-mode #searchBox {
-    color: #fff; /* White text in both modes */
-}
-
-/* Search Button */
-#searchButton {
+/* Search & Random Button Styling */
+#searchButton, #randomButton {
     background: transparent;
     border: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    width: 30px;
-    height: 30px;
+    padding: 8px;
 }
 
-/* Random Button */
-#randomButton {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    width: 30px;
-    height: 30px;
-    margin-left: 10px;
+#searchButton img, #randomButton img {
+    width: 24px;
+    height: 24px;
 }
 
 /* Theme Toggle Button */
@@ -100,24 +76,9 @@ header {
     background: transparent;
     border: none;
     cursor: pointer;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
 }
 
-/* Fix button icon sizes */
-#searchButton img, #randomButton img, #themeToggle img {
-    width: 24px;  /* Increased size */
+#themeToggle img {
+    width: 24px;
     height: 24px;
-}
-
-/* Adjust button spacing */
-#searchButton, #randomButton, #themeToggle {
-    padding: 10px;
 }

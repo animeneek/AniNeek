@@ -1,8 +1,7 @@
-document.addEventListener("DOMContentLoaded", function () {
+function initializeSearchAndRandom() {
     const searchBox = document.getElementById("searchBox");
     const searchButton = document.getElementById("searchButton");
     const randomButton = document.getElementById("randomButton");
-    const animeResults = document.getElementById("animeResults");
 
     // Search Function
     searchButton.addEventListener("click", function () {
@@ -32,4 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Error fetching random anime:", error);
             });
     });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    initializeSearchAndRandom();
 });

@@ -20,14 +20,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
             data.data.forEach(anime => {
+                const episodes = anime.episodes !== null ? anime.episodes : "unknown";
                 const animeItem = document.createElement("div");
                 animeItem.className = "anime-item";
                 animeItem.innerHTML = `
                     <a href="info.html?id=${anime.mal_id}">
                         <img src="${anime.images.jpg.image_url}" alt="${anime.title}">
+                        <div class="play-button"><i class="fa-solid fa-play"></i></div>
                     </a>
                     <div class="anime-title">${anime.title}</div>
-                    <div class="anime-details">${anime.type} / ${anime.episodes} episodes</div>
+                    <div class="anime-details">${anime.type} / ${episodes} episodes / ${anime.status}</div>
                 `;
                 animeResults.appendChild(animeItem);
             });
@@ -36,15 +38,31 @@ document.addEventListener("DOMContentLoaded", function () {
             const totalResults = data.pagination.items.total;
             const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
             pagination.innerHTML = "";
-            for (let i = 1; i <= totalPages; i++) {
-                const pageLink = document.createElement("a");
-                pageLink.href = `search.html?q=${query}&page=${i}`;
-                pageLink.className = "pagination-link";
-                pageLink.textContent = i;
-                if (i === page) {
-                    pageLink.style.backgroundColor = "#555";
+            if (page > 1) {
+                const prevLink = document.createElement("a");
+                prevLink.href = `search.html?q=${query}&page=${page - 1}`;
+                prevLink.className = "pagination-link";
+                prevLink.textContent = "<";
+                pagination.appendChild(prevLink);
+            }
+            for (let i = page - 2; i <= page + 2; i++) {
+                if (i > 0 && i <= totalPages) {
+                    const pageLink = document.createElement("a");
+                    pageLink.href = `search.html?q=${query}&page=${i}`;
+                    pageLink.className = "pagination-link";
+                    pageLink.textContent = i;
+                    if (i === page) {
+                        pageLink.style.backgroundColor = "#555";
+                    }
+                    pagination.appendChild(pageLink);
                 }
-                pagination.appendChild(pageLink);
+            }
+            if (page < totalPages) {
+                const nextLink = document.createElement("a");
+                nextLink.href = `search.html?q=${query}&page=${page + 1}`;
+                nextLink.className = "pagination-link";
+                nextLink.textContent = ">";
+                pagination.appendChild(nextLink);
             }
         })
         .catch(error => {

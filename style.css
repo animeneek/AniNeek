@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #121212;
-    color: white;
+    color: #fff;
     transition: background 0.3s, color 0.3s;
 }
 
@@ -12,14 +12,20 @@ body {
 header {
     width: 100%;
     padding: 10px 20px;
-    background-color: #222;
+    background-color: #1e1e1e;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
 /* Logo */
-#logo img {
+#logo {
     height: 40px;
     width: auto;
 }
@@ -28,54 +34,86 @@ header {
 .search-container {
     display: flex;
     align-items: center;
-    background-color: #333;
-    border-radius: 25px;
+    background: #222;
+    border-radius: 20px;
     padding: 5px 10px;
-    width: 250px;
+    transition: background 0.3s;
 }
 
 .search-container input {
-    background: none;
     border: none;
     outline: none;
-    color: white;
-    flex-grow: 1;
+    padding: 8px;
+    width: 250px;
     font-size: 16px;
-    padding: 5px;
+    background: none;
+    color: white;
 }
 
 .search-container button {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 5px;
+}
+
+.search-container i {
+    font-size: 18px;
+    color: white;
 }
 
 /* Random Button */
 #randomButton {
-    background: none;
-    border: none;
-    cursor: pointer;
     margin-left: 10px;
+    background: #222;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    transition: background 0.3s;
 }
 
-/* Dark Mode Toggle */
+#randomButton i {
+    font-size: 18px;
+    color: white;
+}
+
+/* Toggle Button */
 #themeToggle {
     background: none;
     border: none;
     cursor: pointer;
-    margin-left: auto;
+    font-size: 20px;
+    color: white;
 }
 
 /* Light Mode */
 .light-mode {
-    background-color: white;
-    color: black;
+    background-color: #f8f8f8;
+    color: #000;
+}
+
+.light-mode header {
+    background-color: #e0e0e0;
 }
 
 .light-mode .search-container {
-    background-color: #ddd;
+    background: #ddd;
 }
 
-.light-mode input {
+.light-mode .search-container input {
     color: black;
+}
+
+.light-mode .search-container i,
+.light-mode #randomButton i,
+.light-mode #themeToggle {
+    color: black;
+}
+
+.light-mode #randomButton {
+    background: #ddd;
 }

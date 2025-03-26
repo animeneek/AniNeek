@@ -1,119 +1,92 @@
-/* Global Styles */
-body {
-    font-family: 'Poppins', sans-serif;
+/* General Reset */
+* {
     margin: 0;
     padding: 0;
-    background-color: #121212;
-    color: #fff;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #fff;
+    color: #000;
     transition: background 0.3s, color 0.3s;
 }
 
-/* Header */
+/* Header Styling */
 header {
-    width: 100%;
-    padding: 10px 20px;
-    background-color: #1e1e1e;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    background: #222;
+    padding: 10px 20px;
     position: fixed;
+    width: 100%;
     top: 0;
     left: 0;
-    height: 60px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
 
-/* Logo */
+/* AniNeek Logo */
 #logo {
     height: 40px;
-    width: auto;
 }
 
-/* Search Box */
+/* Search Bar */
 .search-container {
     display: flex;
     align-items: center;
-    background: #222;
+    background: #fff;
+    padding: 5px;
     border-radius: 20px;
-    padding: 5px 10px;
-    transition: background 0.3s;
+    width: 250px;
 }
 
-.search-container input {
+#searchBox {
     border: none;
     outline: none;
-    padding: 8px;
-    width: 250px;
-    font-size: 16px;
-    background: none;
-    color: white;
-}
-
-.search-container button {
-    background: none;
-    border: none;
-    cursor: pointer;
     padding: 5px;
+    flex-grow: 1;
+    font-size: 14px;
+    background: transparent;
 }
 
-.search-container i {
-    font-size: 18px;
-    color: white;
-}
-
-/* Random Button */
-#randomButton {
-    margin-left: 10px;
-    background: #222;
+#searchButton {
+    background: transparent;
     border: none;
-    padding: 8px 12px;
-    border-radius: 20px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
     font-size: 16px;
-    transition: background 0.3s;
+    color: #555;
 }
 
-#randomButton i {
-    font-size: 18px;
-    color: white;
-}
-
-/* Toggle Button */
-#themeToggle {
-    background: none;
+/* Buttons Styling */
+#randomButton, #themeToggle {
+    background: transparent;
     border: none;
     cursor: pointer;
-    font-size: 20px;
-    color: white;
+    font-size: 18px;
+    color: #fff;
+    margin-left: 10px;
 }
 
-/* Light Mode */
-.light-mode {
-    background-color: #f8f8f8;
-    color: #000;
+/* Dark Mode */
+.dark-mode {
+    background-color: #111;
+    color: #fff;
 }
 
-.light-mode header {
-    background-color: #e0e0e0;
+.dark-mode header {
+    background: #333;
 }
 
-.light-mode .search-container {
-    background: #ddd;
+.dark-mode .search-container {
+    background: #444;
 }
 
-.light-mode .search-container input {
-    color: black;
+.dark-mode #searchBox {
+    color: #fff;
 }
 
-.light-mode .search-container i,
-.light-mode #randomButton i,
-.light-mode #themeToggle {
-    color: black;
-}
-
-.light-mode #randomButton {
-    background: #ddd;
+.dark-mode #searchButton {
+    color: #ddd;
 }

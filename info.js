@@ -108,18 +108,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const relatedEntriesList = document.getElementById("relatedEntriesList");
         const relatedTypes = ["Prequel", "Sequel", "Side story", "Spin-off", "Adaptation", "Summary", "Alternative version", "Other"];
 
+        relatedEntriesList.innerHTML = ""; // Clear any existing entries
+
         relatedTypes.forEach(type => {
             if (anime.relations && anime.relations.length > 0) {
                 anime.relations.forEach(relation => {
                     if (relation.type === type) {
                         relation.entry.forEach(entry => {
-                            const listItem = document.createElement("li");
-                            listItem.textContent = `${relation.type}: ${entry.name}`;
-                            relatedEntriesList.appendChild(listItem);
-                        });
-                    }
-                });
-            }
-        });
-    }
-});
+                            const listItem = document.createElement("li

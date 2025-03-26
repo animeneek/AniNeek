@@ -19,6 +19,10 @@ body {
     color: #000;
 }
 
+.light-mode header {
+    background: #f0f0f0;
+}
+
 /* Header Styling */
 header {
     display: flex;
@@ -48,6 +52,10 @@ header {
     width: 300px;
 }
 
+.light-mode .search-container {
+    background: #ccc;
+}
+
 #searchBox {
     border: none;
     outline: none;
@@ -56,6 +64,10 @@ header {
     font-size: 14px;
     background: transparent;
     color: #fff;
+}
+
+.light-mode #searchBox {
+    color: #000;
 }
 
 /* Search & Random Button Styling */

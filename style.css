@@ -6,30 +6,23 @@ body {
     background-color: #121212;
     color: #fff;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
+    flex-direction: column; /* Fixes centering issue */
+    min-height: 100vh; /* Ensures full height */
 }
 
-h1, h2, h3 {
-    text-align: center;
-    margin: 20px;
-    font-weight: 600;
-}
-
-a {
-    text-decoration: none;
-    color: #00bcd4;
-}
-
+/* Header Styling */
 header {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     background-color: #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed; /* Makes header always visible */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #logo {
@@ -38,9 +31,26 @@ header {
     color: #fff;
 }
 
-#episode-title {
-    font-size: 24px;
-    color: #00bcd4;
+header input, header button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff5733;
+}
+
+/* Main Content (Fixes Header Overlapping Content) */
+main {
+    padding-top: 70px; /* Pushes content below the fixed header */
 }
 
 /* Video Player Styles */
@@ -53,12 +63,13 @@ header {
     margin: 20px 0;
 }
 
-#video-player iframe {
+#video-player {
     width: 100%;
     height: 500px;
     border: none;
 }
 
+/* Source Selection Buttons */
 #source-selection button {
     margin: 10px;
     padding: 10px 20px;
@@ -77,19 +88,17 @@ header {
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    main {
+        padding-top: 90px; /* Extra padding for smaller screens */
+    }
+
     #player-container {
         width: 90%;
     }
-
-    #episode-title {
-        font-size: 20px;
-    }
-
-    #source-selection button {
-        font-size: 14px;
-    }
-}
-
-button:hover {
-    background-color: #ff5733;
 }

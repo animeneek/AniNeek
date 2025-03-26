@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 window.location.href = `info.html?id=${data.data.mal_id}`;
+            })
+            .catch(error => {
+                console.error("Error fetching random anime:", error);
             });
     });
 });

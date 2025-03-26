@@ -335,8 +335,22 @@ main {
     margin-bottom: 20px;
 }
 
+#player-container iframe {
+    width: 100%;
+    height: 80vh; /* Fullscreen height */
+    border-radius: 10px;
+}
+
 /* Episode Info Section */
 #episode-info {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Source Container */
+#source-container {
     background: #222;
     padding: 20px;
     border-radius: 10px;

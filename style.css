@@ -78,7 +78,11 @@ header {
     cursor: pointer;
 }
 
-#themeToggle img {
-    width: 24px;
-    height: 24px;
+.icon {
+    color: #ffffff;
+}
+
+/* Light Mode Icon Colors */
+.light-mode .icon {
+    color: #000000;
 }

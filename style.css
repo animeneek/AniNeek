@@ -5,6 +5,7 @@ body {
     padding: 0;
     background-color: #121212;
     color: #fff;
+    transition: background 0.3s, color 0.3s;
 }
 
 /* Header */
@@ -33,18 +34,20 @@ header {
 .search-container {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: #222;
     border-radius: 20px;
-    overflow: hidden;
     padding: 5px 10px;
+    transition: background 0.3s;
 }
 
 .search-container input {
     border: none;
     outline: none;
-    padding: 8px 10px;
+    padding: 8px;
     width: 250px;
     font-size: 16px;
+    background: none;
+    color: white;
 }
 
 .search-container button {
@@ -56,13 +59,13 @@ header {
 
 .search-container i {
     font-size: 18px;
-    color: #777;
+    color: white;
 }
 
 /* Random Button */
 #randomButton {
     margin-left: 10px;
-    background: #fff;
+    background: #222;
     border: none;
     padding: 8px 12px;
     border-radius: 20px;
@@ -70,11 +73,12 @@ header {
     display: flex;
     align-items: center;
     font-size: 16px;
+    transition: background 0.3s;
 }
 
 #randomButton i {
     font-size: 18px;
-    color: #777;
+    color: white;
 }
 
 /* Toggle Button */
@@ -83,7 +87,7 @@ header {
     border: none;
     cursor: pointer;
     font-size: 20px;
-    color: #fff;
+    color: white;
 }
 
 /* Light Mode */
@@ -100,7 +104,16 @@ header {
     background: #ddd;
 }
 
+.light-mode .search-container input {
+    color: black;
+}
+
 .light-mode .search-container i,
-.light-mode #randomButton i {
-    color: #333;
+.light-mode #randomButton i,
+.light-mode #themeToggle {
+    color: black;
+}
+
+.light-mode #randomButton {
+    background: #ddd;
 }

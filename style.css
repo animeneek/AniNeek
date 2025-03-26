@@ -109,6 +109,8 @@ main {
 
 .poster-container {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .poster-container .overlay {
@@ -128,7 +130,7 @@ main {
 
 .anime-item img.anime-poster {
     width: 100%; /* Adjusted to fill the container */
-    height: auto; /* Maintain aspect ratio */
+    height: 100%; /* Maintain aspect ratio */
     object-fit: cover;
 }
 

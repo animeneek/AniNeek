@@ -12,7 +12,7 @@ body {
     color: #fff;
     transition: background 0.3s, color 0.3s;
     padding: 20px; /* Added padding for better appearance */
-    padding-top: 100px; /* Ensure padding does not affect header */
+    padding-top: 0; /* Ensure padding does not affect header */
 }
 
 /* Header Styling */
@@ -23,15 +23,15 @@ header {
     background: #222;
     padding: 10px 20px;
     position: fixed;
-    width: calc(100% - 40px); /* Adjusted width for padding */
+    width: 100%;
     top: 0;
-    left: 20px; /* Adjusted for padding */
+    left: 0;
     z-index: 1000;
 }
 
 /* Main Content */
 main {
-    margin-top: 20px; /* Adjust this value based on your header height */
+    margin-top: 80px; /* Adjust this value based on your header height */
 }
 
 /* Logo */

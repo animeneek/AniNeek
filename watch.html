@@ -13,16 +13,48 @@
     <div id="header"></div>
 
     <main>
-        <h1 id="anime-title">Loading...</h1>
-        <h2 id="episode-title"></h2>
-
-        <!-- Video Player -->
+        <!-- Video Player Section -->
         <div id="player-container">
             <iframe id="video-player" width="640" height="360" src="" frameborder="0" allowfullscreen></iframe>
         </div>
 
+        <!-- Source Buttons -->
         <h3>Select Source:</h3>
-        <div id="source-buttons"></div>
+        <div id="source-buttons" class="button-container"></div>
+
+        <!-- Episode Info Section -->
+        <div id="episode-info">
+            <h2 id="episode-title">Loading...</h2>
+            <p id="episode-synopsis"></p>
+        </div>
+
+        <!-- Sub, Dub, and Raw Sections -->
+        <div id="subDubRawSections">
+            <div class="sectionContainer">
+                <h3>Sub</h3>
+                <div class="dropdownContainer">
+                    <select id="subEpisodeRange"></select>
+                    <input type="number" id="subEpisodeFilter" placeholder="Episode Number">
+                </div>
+                <div class="episodeButtons" id="subEpisodeButtons"></div>
+            </div>
+            <div class="sectionContainer">
+                <h3>Dub</h3>
+                <div class="dropdownContainer">
+                    <select id="dubEpisodeRange"></select>
+                    <input type="number" id="dubEpisodeFilter" placeholder="Episode Number">
+                </div>
+                <div class="episodeButtons" id="dubEpisodeButtons"></div>
+            </div>
+            <div class="sectionContainer">
+                <h3>Raw</h3>
+                <div class="dropdownContainer">
+                    <select id="rawEpisodeRange"></select>
+                    <input type="number" id="rawEpisodeFilter" placeholder="Episode Number">
+                </div>
+                <div class="episodeButtons" id="rawEpisodeButtons"></div>
+            </div>
+        </div>
     </main>
 
     <script>

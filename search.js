@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     data.data.forEach(anime => {
                         const episodes = anime.episodes !== null ? `${anime.episodes} EPS` : "? EPS";
                         const status = anime.status === "Finished Airing" ? "Fin" : anime.status === "Currently Airing" ? "Airing" : "Soon";
-                        const types = anime.type === "Hentai" ? `<span class="detail-box hen">HEN</span>` : "";
+                        const hentai = anime.type === "Hentai" ? `<span class="detail-box hen">HEN</span>` : "";
                         const sources = animeData.find(item => item["data-mal-id"] == anime.mal_id)?.episodes || [];
                         const sub = sources.some(ep => ep["data-ep-lan"].toLowerCase() === "sub") ? `<span class="detail-box sub">SUB</span>` : "";
                         const dub = sources.some(ep => ep["data-ep-lan"].toLowerCase() === "dub") ? `<span class="detail-box dub">DUB</span>` : "";
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             </a>
                             <div class="anime-title">${anime.title}</div>
                             <div class="anime-details">
-                                ${types}
+                                ${hentai}
                                 <span class="detail-box">${anime.type}</span>
                                 <span class="detail-box">${episodes}</span>
                                 ${sub}

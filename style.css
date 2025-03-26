@@ -380,6 +380,12 @@ main {
 }
 
 /* Highlighted Button */
+.button-container button.selected {
+    background: #555 !important;
+    font-weight: bold;
+}
+
+/* Highlighted Episode Button */
 .episodeButtons button.selected {
     background: #555 !important;
     font-weight: bold;

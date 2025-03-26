@@ -11,6 +11,7 @@ body {
     background-color: #111;
     color: #fff;
     transition: background 0.3s, color 0.3s;
+    padding: 20px; /* Added padding for better appearance */
 }
 
 /* Header Styling */
@@ -21,9 +22,9 @@ header {
     background: #222;
     padding: 10px 20px;
     position: fixed;
-    width: 100%;
+    width: calc(100% - 40px); /* Adjusted width for padding */
     top: 0;
-    left: 0;
+    left: 20px; /* Adjusted for padding */
     z-index: 1000;
 }
 
@@ -217,12 +218,14 @@ main {
 
 /* Anime Details Table */
 #animeDetailsTable {
-    width: 100%;
+    width: 48%; /* Adjusted width for left alignment */
     margin-top: 20px;
+    margin-right: 4%;
     border-collapse: collapse;
     background: #222;
     border-radius: 10px;
     overflow: hidden;
+    float: left; /* Align to the left */
 }
 
 #animeDetailsTable th, #animeDetailsTable td {
@@ -238,6 +241,22 @@ main {
 
 #animeDetailsTable td {
     width: calc(100% - 200px); /* Adjust width for table data */
+}
+
+/* Related Entries Box */
+#relatedEntries {
+    width: 48%; /* Adjusted width for right alignment */
+    padding: 20px;
+    background: #222;
+    border-radius: 10px;
+    float: right; /* Align to the right */
+}
+
+/* Clearfix for floating elements */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 /* Sub, Dub, and Raw Sections */

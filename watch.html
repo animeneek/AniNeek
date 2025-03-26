@@ -9,27 +9,20 @@
 <body>
 
     <!-- Header (Same for All Pages) -->
-    <header>
-        <img src="public/AniNeek_Logo copy.png" id="logo" alt="AniNeek">
-        
-        <div class="search-container">
-            <input type="text" id="searchBox" placeholder="Search anime...">
-            <button id="searchButton">
-                <img src="public/magnifying-glass-solid_black.svg" class="icon-light">
-                <img src="public/magnifying-glass-solid_white.svg" class="icon-dark">
-            </button>
-        </div>
+<header>
+    <a href="index.html"><img src="public/AniNeek_Logo.png" id="logo" alt="AniNeek"></a>
+    
+    <div class="search-container">
+        <input type="text" id="searchBox" placeholder="Search anime...">
+        <button id="searchButton"><i class="fa-solid fa-search"></i></button>
+    </div>
 
-        <button id="randomButton">
-            <img src="public/random-solid_black.svg" class="icon-light">
-            <img src="public/random-solid_white.svg" class="icon-dark">
-        </button>
-        
-        <button id="themeToggle">
-            <img src="public/moon-solid_black.svg" class="icon-light">
-            <img src="public/sun-solid_white.svg" class="icon-dark">
-        </button>
-    </header>
+    <div class="header-buttons">
+        <button id="randomButton"><i class="fa-solid fa-shuffle"></i></button>
+        <button id="themeToggle"><i class="fa-solid fa-moon"></i></button>
+    </div>
+</header>
+
 
     <main>
         <h1 id="anime-title">Loading...</h1>

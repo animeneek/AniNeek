@@ -36,6 +36,8 @@ header {
 /* AniNeek Logo */
 #logo {
     height: 40px;
+    max-width: 100%;
+    display: block;
 }
 
 /* Search Container */
@@ -43,9 +45,9 @@ header {
     display: flex;
     align-items: center;
     background: #333; /* Dark search box */
-    padding: 5px;
+    padding: 8px 12px;
     border-radius: 20px;
-    width: 250px;
+    width: 300px;
 }
 
 .light-mode .search-container {
@@ -71,17 +73,29 @@ header {
     background: transparent;
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
 }
 
-/* Random Button (Placed immediately after search box) */
+/* Random Button */
 #randomButton {
     background: transparent;
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
     margin-left: 10px;
 }
 
-/* Theme Toggle Button (Moved to right corner) */
+/* Theme Toggle Button */
 #themeToggle {
     background: transparent;
     border: none;
@@ -90,16 +104,20 @@ header {
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
 }
 
-/* Fix search button & random button size */
+/* Fix button icon sizes */
 #searchButton img, #randomButton img, #themeToggle img {
-    width: 20px;  /* Increase the size */
-    height: 20px;
+    width: 24px;  /* Increased size */
+    height: 24px;
 }
 
 /* Adjust button spacing */
 #searchButton, #randomButton, #themeToggle {
-    padding: 8px;
+    padding: 10px;
 }
-

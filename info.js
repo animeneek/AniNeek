@@ -79,11 +79,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         episodeFilterInput.addEventListener("input", function () {
-            const episodeNumber = parseInt(episodeFilterInput.value);
-            if (!isNaN(episodeNumber)) {
-                const filtered = filteredEpisodes.filter(ep => ep["data-ep-num"] == episodeNumber);
-                displayEpisodeButtons(filtered, type);
-            }
+            const episodeNumber = episodeFilterInput.value;
+            const filtered = filteredEpisodes.filter(ep => ep["data-ep-num"].toString().includes(episodeNumber));
+            displayEpisodeButtons(filtered, type);
         });
 
         displayEpisodeButtons(filteredEpisodes.slice(0, rangeSize), type);

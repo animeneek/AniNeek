@@ -8,35 +8,23 @@
 </head>
 <body>
 
-    <!-- Header (Same for All Pages) -->
-    <header>
-        <img src="/anineek/public/AniNeek_Logo copy.png" id="logo" alt="AniNeek">
-
-        <div class="search-container">
-            <input type="text" id="searchBox" placeholder="Search anime...">
-            <button id="searchButton">
-                <img src="public/magnifying-glass-solid_black.svg" class="icon-light">
-                <img src="public/magnifying-glass-solid_white.svg" class="icon-dark">
-            </button>
-        </div>
-
-        <!-- Random Button (Placed immediately after search box) -->
-        <button id="randomButton">
-            <img src="public/random-solid_black.svg" class="icon-light">
-            <img src="public/random-solid_white.svg" class="icon-dark">
-        </button>
-
-        <!-- Dark/Light Toggle (Moved to right corner) -->
-        <button id="themeToggle">
-            <img src="public/moon-solid_black.svg" class="icon-light">
-            <img src="public/sun-solid_white.svg" class="icon-dark">
-        </button>
-    </header>
+    <!-- Include Header -->
+    <div id="header"></div>
 
     <main>
         <h1>Search Results</h1>
         <div id="animeResults">Loading...</div>
     </main>
+
+    <script>
+        fetch("header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header").innerHTML = data;
+                // Initialize search and random functionality after loading the header
+                initializeSearchAndRandom();
+            });
+    </script>
 
     <script src="search.js"></script>
     <script src="theme.js"></script>

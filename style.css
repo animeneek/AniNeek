@@ -18,13 +18,14 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #222;
-    padding: 10px 20px;
+    background: #1a1a1a;
+    padding: 12px 20px;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* AniNeek Logo */
@@ -36,27 +37,28 @@ header {
 .search-container {
     display: flex;
     align-items: center;
-    background: #fff;
-    padding: 5px;
-    border-radius: 20px;
-    width: 250px;
+    background: #333;
+    padding: 6px 12px;
+    border-radius: 25px;
+    width: 260px;
 }
 
 #searchBox {
     border: none;
     outline: none;
-    padding: 5px;
+    padding: 6px;
     flex-grow: 1;
     font-size: 14px;
     background: transparent;
+    color: white;
 }
 
-#searchButton {
-    background: transparent;
+.search-container button {
+    background: none;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    color: #555;
+    font-size: 18px;
+    color: white;
 }
 
 /* Buttons Styling */
@@ -69,24 +71,27 @@ header {
     margin-left: 10px;
 }
 
-/* Dark Mode */
-.dark-mode {
-    background-color: #111;
-    color: #fff;
+/* Header Buttons */
+.header-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    margin-left: 12px;
 }
 
-.dark-mode header {
-    background: #333;
+/* Dark Mode */
+.dark-mode {
+    background-color: #121212;
+    color: white;
 }
 
 .dark-mode .search-container {
     background: #444;
 }
 
-.dark-mode #searchBox {
-    color: #fff;
-}
-
-.dark-mode #searchButton {
+.dark-mode .search-container button,
+.dark-mode .header-buttons button {
     color: #ddd;
 }

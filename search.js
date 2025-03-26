@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
             data.data.forEach(anime => {
-                const episodes = anime.episodes !== null ? anime.episodes : "unknown";
+                const episodes = anime.episodes !== null ? `${anime.episodes} EPS` : "? EPS";
+                const status = anime.status === "Finished Airing" ? "Fin" : anime.status === "Currently Airing" ? "Airing" : "Soon";
                 const animeItem = document.createElement("div");
                 animeItem.className = "anime-item";
                 animeItem.innerHTML = `
@@ -32,7 +33,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="play-button"><i class="fa-solid fa-play"></i></div>
                     </a>
                     <div class="anime-title">${anime.title}</div>
-                    <div class="anime-details">${anime.type} / ${episodes} episodes / ${anime.status}</div>
+                    <div class="anime-details">
+                        <span class="detail-box">${anime.type}</span>
+                        <span class="detail-box">${anime.year}</span>
+                        <span class="detail-box">${episodes}</span>
+                        <span class="detail-box">${status}</span>
+                    </div>
                 `;
                 animeResults.appendChild(animeItem);
             });

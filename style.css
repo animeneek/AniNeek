@@ -127,8 +127,8 @@ main {
 }
 
 .anime-item img.anime-poster {
-    width: 200px; /* Increased poster size */
-    height: 276px; /* Maintaining aspect ratio */
+    width: 220px; /* Increased poster size */
+    height: 306px; /* Maintaining aspect ratio */
     object-fit: cover;
 }
 
@@ -154,6 +154,26 @@ main {
     background: #333;
     padding: 2px 5px;
     border-radius: 3px;
+}
+
+.detail-box.sub {
+    background: #4caf50;
+    color: white;
+}
+
+.detail-box.dub {
+    background: #2196f3;
+    color: white;
+}
+
+.detail-box.raw {
+    background: #ff9800;
+    color: white;
+}
+
+.detail-box.hen {
+    background: #ff4444;
+    color: white;
 }
 
 /* Play Button on Hover */

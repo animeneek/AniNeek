@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("animePortrait").src = anime.images.jpg.image_url;
             document.getElementById("animeTitle").textContent = anime.title;
             document.getElementById("animeEnglishTitle").textContent = anime.title_english || "N/A";
-            document.getElementById("animeRating").textContent = anime.rating || "N/A";
-            document.getElementById("animeGenre").textContent = anime.genres.map(genre => genre.name).join(", ") || "N/A";
-            document.getElementById("animeThemes").textContent = anime.themes.map(theme => theme.name).join(", ") || "N/A";
-            document.getElementById("animeDemographic").textContent = anime.demographics.map(demographic => demographic.name).join(", ") || "N/A";
+            document.getElementById("animeRating").textContent = `Rating: ${anime.rating || "N/A"}`;
+            document.getElementById("animeGenre").textContent = `Genre: ${anime.genres.map(genre => genre.name).join(", ") || "N/A"}`;
+            document.getElementById("animeThemes").textContent = `Theme: ${anime.themes.map(theme => theme.name).join(", ") || "N/A"}`;
+            document.getElementById("animeDemographic").textContent = `Demographic: ${anime.demographics.map(demographic => demographic.name).join(", ") || "N/A"}`;
             document.getElementById("animeSynopsis").textContent = anime.synopsis || "N/A";
 
             document.getElementById("animeType").textContent = anime.type || "N/A";
@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch(error => {
                     console.error("Error fetching episode data:", error);
                 });
+
+            // Fetch related entries
+            fetchRelatedEntries(anime);
         })
         .catch(error => {
             console.error("Error fetching anime data:", error);
@@ -98,6 +101,25 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href = `watch.html?id=${animeId}&ep=${ep["data-ep-num"]}&type=${type.toLowerCase()}`;
             });
             episodeButtonsContainer.appendChild(button);
+        });
+    }
+
+    function fetchRelatedEntries(anime) {
+        const relatedEntriesList = document.getElementById("relatedEntriesList");
+        const relatedTypes = ["Prequel", "Sequel", "Side story", "Spin-off", "Adaptation", "Summary", "Alternative version", "Other"];
+
+        relatedTypes.forEach(type => {
+            if (anime.relations && anime.relations.length > 0) {
+                anime.relations.forEach(relation => {
+                    if (relation.type === type) {
+                        relation.entry.forEach(entry => {
+                            const listItem = document.createElement("li");
+                            listItem.textContent = `${relation.type}: ${entry.name}`;
+                            relatedEntriesList.appendChild(listItem);
+                        });
+                    }
+                });
+            }
         });
     }
 });

@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fetch(`https://api.jikan.moe/v4/anime/${animeId}`)
         .then(response => response.json())
-        .then(data => {
-            const anime = data.data;
+        .then(animeData => {
+            const anime = animeData.data;
 
             document.getElementById("animePoster").src = anime.images.jpg.large_image_url;
             document.getElementById("animePortrait").src = anime.images.jpg.image_url;
@@ -32,62 +32,74 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("animeStudio").textContent = anime.studios.map(studio => studio.name).join(", ") || "N/A";
             document.getElementById("animeProducers").textContent = anime.producers.map(producer => producer.name).join(", ") || "N/A";
 
-            // Populate Sub, Dub, and Raw sections
-            populateEpisodeSections(anime.episodes, "sub");
-            populateEpisodeSections(anime.episodes, "dub");
-            populateEpisodeSections(anime.episodes, "raw");
+            // Load episode data from animeneek.json
+            fetch("animeneek.json")
+                .then(response => response.json())
+                .then(episodeData => {
+                    const animeEpisodes = episodeData.find(item => item["data-mal-id"] == animeId)?.episodes || [];
+                    populateEpisodeSections(animeEpisodes, "Sub");
+                    populateEpisodeSections(animeEpisodes, "Dub");
+                    populateEpisodeSections(animeEpisodes, "Raw");
+                })
+                .catch(error => {
+                    console.error("Error fetching episode data:", error);
+                });
         })
         .catch(error => {
             console.error("Error fetching anime data:", error);
             document.getElementById("animeTitle").textContent = "Failed to load anime data.";
         });
 
-    function populateEpisodeSections(totalEpisodes, type) {
-        const episodeRangeSelect = document.getElementById(`${type}EpisodeRange`);
-        const episodeFilterInput = document.getElementById(`${type}EpisodeFilter`);
-        const episodeButtonsContainer = document.getElementById(`${type}EpisodeButtons`);
+    function populateEpisodeSections(episodes, type) {
+        const episodeRangeSelect = document.getElementById(`${type.toLowerCase()}EpisodeRange`);
+        const episodeFilterInput = document.getElementById(`${type.toLowerCase()}EpisodeFilter`);
+        const episodeButtonsContainer = document.getElementById(`${type.toLowerCase()}EpisodeButtons`);
 
-        if (!totalEpisodes || totalEpisodes === "Unknown") {
+        const filteredEpisodes = episodes.filter(ep => ep["data-ep-lan"] === type);
+
+        if (filteredEpisodes.length === 0) {
             episodeRangeSelect.disabled = true;
             episodeFilterInput.disabled = true;
+            episodeButtonsContainer.innerHTML = "<p>No episodes available.</p>";
             return;
         }
 
         const rangeSize = 100;
-        for (let i = 1; i <= totalEpisodes; i += rangeSize) {
-            const end = Math.min(i + rangeSize - 1, totalEpisodes);
+        for (let i = 0; i < filteredEpisodes.length; i += rangeSize) {
+            const end = Math.min(i + rangeSize, filteredEpisodes.length);
             const option = document.createElement("option");
-            option.value = `${i}-${end}`;
-            option.textContent = `Eps ${i}-${end}`;
+            option.value = `${i + 1}-${end}`;
+            option.textContent = `Eps ${i + 1}-${end}`;
             episodeRangeSelect.appendChild(option);
         }
 
         episodeRangeSelect.addEventListener("change", function () {
             const [start, end] = episodeRangeSelect.value.split("-").map(Number);
-            displayEpisodeButtons(start, end, type);
+            displayEpisodeButtons(filteredEpisodes.slice(start - 1, end), type);
         });
 
         episodeFilterInput.addEventListener("input", function () {
             const episodeNumber = parseInt(episodeFilterInput.value);
             if (!isNaN(episodeNumber)) {
-                displayEpisodeButtons(episodeNumber, episodeNumber, type);
+                const filtered = filteredEpisodes.filter(ep => ep["data-ep-num"] == episodeNumber);
+                displayEpisodeButtons(filtered, type);
             }
         });
 
-        displayEpisodeButtons(1, Math.min(rangeSize, totalEpisodes), type);
+        displayEpisodeButtons(filteredEpisodes.slice(0, rangeSize), type);
     }
 
-    function displayEpisodeButtons(start, end, type) {
-        const episodeButtonsContainer = document.getElementById(`${type}EpisodeButtons`);
+    function displayEpisodeButtons(episodes, type) {
+        const episodeButtonsContainer = document.getElementById(`${type.toLowerCase()}EpisodeButtons`);
         episodeButtonsContainer.innerHTML = "";
 
-        for (let i = start; i <= end; i++) {
+        episodes.forEach(ep => {
             const button = document.createElement("button");
-            button.textContent = i;
+            button.textContent = ep["data-ep-num"];
             button.addEventListener("click", function () {
-                window.location.href = `watch.html?id=${animeId}&ep=${i}&type=${type}`;
+                window.location.href = `watch.html?id=${animeId}&ep=${ep["data-ep-num"]}&type=${type.toLowerCase()}`;
             });
             episodeButtonsContainer.appendChild(button);
-        }
+        });
     }
 });

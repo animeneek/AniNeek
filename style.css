@@ -13,16 +13,6 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-/* Light Mode */
-.light-mode {
-    background-color: #fff;
-    color: #000;
-}
-
-.light-mode header {
-    background: #f0f0f0;
-}
-
 /* Header Styling */
 header {
     display: flex;
@@ -52,10 +42,6 @@ header {
     width: 300px;
 }
 
-.light-mode .search-container {
-    background: #ccc;
-}
-
 #searchBox {
     border: none;
     outline: none;
@@ -64,10 +50,6 @@ header {
     font-size: 14px;
     background: transparent;
     color: #fff;
-}
-
-.light-mode #searchBox {
-    color: #000;
 }
 
 /* Search & Random Button Styling */
@@ -83,18 +65,7 @@ header {
     height: 24px;
 }
 
-/* Theme Toggle Button */
-#themeToggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-
+/* Icon Styling */
 .icon {
     color: #ffffff;
-}
-
-/* Light Mode Icon Colors */
-.light-mode .icon {
-    color: #000000;
 }

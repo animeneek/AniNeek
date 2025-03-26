@@ -9,78 +9,98 @@ body {
 
 /* Header */
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    width: 100%;
     padding: 10px 20px;
-    background-color: #333;
+    background-color: #1e1e1e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: fixed;
     top: 0;
-    width: 100%;
+    left: 0;
+    height: 60px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
 
 /* Logo */
 #logo {
-    width: 100px;
-    height: auto;
-    cursor: pointer;
+    height: 40px;
+    width: auto;
 }
 
 /* Search Box */
 .search-container {
     display: flex;
     align-items: center;
-    background: #222;
-    border-radius: 30px;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
     padding: 5px 10px;
 }
 
-#searchBox {
+.search-container input {
     border: none;
-    background: none;
-    color: white;
     outline: none;
-    padding: 8px;
+    padding: 8px 10px;
     width: 250px;
     font-size: 16px;
 }
 
-#searchButton, #randomButton, #themeToggle {
+.search-container button {
     background: none;
     border: none;
-    color: white;
     cursor: pointer;
-    font-size: 18px;
     padding: 5px;
 }
 
-/* Button Icons */
-#searchButton::before { content: "🔎"; }
-#randomButton::before { content: "🔀"; }
-#themeToggle::before { content: "☀️"; } /* Default Sun in Dark Mode */
+.search-container i {
+    font-size: 18px;
+    color: #777;
+}
 
-/* Dark Mode */
+/* Random Button */
+#randomButton {
+    margin-left: 10px;
+    background: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+#randomButton i {
+    font-size: 18px;
+    color: #777;
+}
+
+/* Toggle Button */
+#themeToggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #fff;
+}
+
+/* Light Mode */
 .light-mode {
-    background-color: #f0f0f0;
-    color: #222;
+    background-color: #f8f8f8;
+    color: #000;
 }
 
 .light-mode header {
-    background-color: #ddd;
+    background-color: #e0e0e0;
 }
 
 .light-mode .search-container {
-    background: #fff;
-    color: #222;
+    background: #ddd;
 }
 
-.light-mode #searchBox {
-    color: black;
+.light-mode .search-container i,
+.light-mode #randomButton i {
+    color: #333;
 }
-
-.light-mode button {
-    color: black;
-}
-
-.light-mode #themeToggle::before { content: "🌙"; } /* Moon in Light Mode */

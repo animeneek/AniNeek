@@ -22,7 +22,7 @@ header {
 
 /* Logo */
 #logo {
-    width: 120px;
+    width: 100px;
     height: auto;
     cursor: pointer;
 }
@@ -42,11 +42,11 @@ header {
     color: white;
     outline: none;
     padding: 8px;
-    width: 200px;
+    width: 250px;
     font-size: 16px;
 }
 
-#searchButton {
+#searchButton, #randomButton, #themeToggle {
     background: none;
     border: none;
     color: white;
@@ -55,19 +55,10 @@ header {
     padding: 5px;
 }
 
-/* Buttons */
-button {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 10px;
-}
-
-button:hover {
-    opacity: 0.7;
-}
+/* Button Icons */
+#searchButton::before { content: "🔎"; }
+#randomButton::before { content: "🔀"; }
+#themeToggle::before { content: "☀️"; } /* Default Sun in Dark Mode */
 
 /* Dark Mode */
 .light-mode {
@@ -91,3 +82,5 @@ button:hover {
 .light-mode button {
     color: black;
 }
+
+.light-mode #themeToggle::before { content: "🌙"; } /* Moon in Light Mode */

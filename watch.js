@@ -161,4 +161,10 @@ document.addEventListener("DOMContentLoaded", function () {
         episodes.forEach(ep => {
             const button = document.createElement("button");
             button.textContent = ep["data-ep-num"];
-            button.addEventListener("click", function
+            button.addEventListener("click", function () {
+                window.location.href = `watch.html?id=${malId}&ep=${ep["data-ep-num"]}&type=${type.toLowerCase()}`;
+            });
+            episodeButtonsContainer.appendChild(button);
+        });
+    }
+});

@@ -4,12 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const page = parseInt(urlParams.get("page")) || 1;
     const animeResults = document.getElementById("animeResults");
     const pagination = document.getElementById("pagination");
+    const searchTitle = document.getElementById("searchTitle");
     const RESULTS_PER_PAGE = 25;
 
     if (!query) {
         animeResults.innerHTML = "<p>No search query provided.</p>";
         return;
     }
+
+    searchTitle.innerText = `Results for: ${query}`;
 
     fetch(`https://api.jikan.moe/v4/anime?q=${query}&page=${page}&limit=${RESULTS_PER_PAGE}`)
         .then(response => response.json())
@@ -25,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 animeItem.className = "anime-item";
                 animeItem.innerHTML = `
                     <a href="info.html?id=${anime.mal_id}">
-                        <img src="${anime.images.jpg.image_url}" alt="${anime.title}">
+                        <img src="${anime.images.jpg.image_url}" alt="${anime.title}" class="anime-poster">
                         <div class="play-button"><i class="fa-solid fa-play"></i></div>
                     </a>
                     <div class="anime-title">${anime.title}</div>

@@ -115,4 +115,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 anime.relations.forEach(relation => {
                     if (relation.type === type) {
                         relation.entry.forEach(entry => {
-                            const listItem = document.createElement("li
+                            const listItem = document.createElement("li");
+                            listItem.textContent = `${relation.type}: ${entry.name}`;
+                            relatedEntriesList.appendChild(listItem);
+                        });
+                    }
+                });
+            }
+        });
+    }
+});

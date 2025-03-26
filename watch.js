@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 btn1.innerText = "Source 1";
                 btn1.onclick = () => {
                     document.getElementById("video-player").src = `//s3taku.one/watch?play=${videoId}`;
+                    highlightSelectedSourceButton(btn1);
                 };
                 sourceButtons.appendChild(btn1);
 
@@ -99,8 +100,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 btn2.innerText = "Source 2";
                 btn2.onclick = () => {
                     document.getElementById("video-player").src = `//s3taku.one/watch?play=${videoId}&sv=1`;
+                    highlightSelectedSourceButton(btn2);
                 };
                 sourceButtons.appendChild(btn2);
+
+                // Highlight the first source button by default
+                highlightSelectedSourceButton(btn1);
+            }
+
+            // Highlight the selected source button
+            function highlightSelectedSourceButton(selectedButton) {
+                const buttons = sourceButtons.getElementsByTagName("button");
+                for (let button of buttons) {
+                    button.classList.remove("selected");
+                }
+                selectedButton.classList.add("selected");
             }
 
             // Highlight the current episode button

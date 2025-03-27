@@ -472,7 +472,7 @@ main {
     height: 400px; /* Decreased height */
     overflow: hidden;
     margin: 20px 0;
-    padding-top: 120px; /* Increase padding to prevent overlap with header */
+    padding-top: 220px; /* Increase padding to prevent overlap with header */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }

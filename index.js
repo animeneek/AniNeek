@@ -38,3 +38,14 @@ function fetchPopularAnime() {
             return [];
         });
 }
+
+// Ensure the function is called on all pages where the header is loaded
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("header.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("header").innerHTML = data;
+            // Initialize search and random functionality after loading the header
+            initializeSearchAndRandom();
+        });
+});

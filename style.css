@@ -483,7 +483,8 @@ main {
     background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Align content to the left */
+    padding-left: 20px; /* Add padding for the left-aligned content */
 }
 
 /* Slide Content */

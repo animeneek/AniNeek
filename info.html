@@ -13,71 +13,76 @@
     <div id="header"></div>
 
     <main>
-        <!-- Smoky Section with Background Poster -->
         <div id="smokySection">
-            <div id="posterOverlay">
-                <img id="animePoster" src="" alt="Anime Poster">
-            </div>
+            <div id="posterOverlay"></div>
             <div id="animeInfo">
-                <img id="animePortrait" src="" alt="Anime Portrait">
+                <img id="animePortrait" src="" alt="Anime Poster">
                 <div id="animeDetails">
-                    <h1 id="animeTitle">Loading...</h1>
-                    <h2 id="animeEnglishTitle"></h2>
-                    <p id="animeRating"></p>
-                    <p id="animeGenre"></p>
-                    <p id="animeThemes"></p>
-                    <p id="animeDemographic"></p>
+                    <h1 id="animeTitle"></h1>
+                    <h2 id="animeJapaneseTitle"></h2>
                     <p id="animeSynopsis"></p>
+                    <table id="animeDetailsTable">
+                        <tr>
+                            <th>Type</th>
+                            <td id="animeType"></td>
+                        </tr>
+                        <tr>
+                            <th>Episodes</th>
+                            <td id="animeEpisodes"></td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td id="animeStatus"></td>
+                        </tr>
+                        <tr>
+                            <th>Aired</th>
+                            <td id="animeAired"></td>
+                        </tr>
+                        <tr>
+                            <th>Duration</th>
+                            <td id="animeDuration"></td>
+                        </tr>
+                        <tr>
+                            <th>Rating</th>
+                            <td id="animeRating"></td>
+                        </tr>
+                    </table>
+                    <div id="subDubRawSections">
+                        <div class="sectionContainer" id="subContainer">
+                            <div class="dropdownContainer">
+                                <select id="subDropdown"></select>
+                            </div>
+                            <div class="episodeButtons" id="subEpisodes"></div>
+                        </div>
+                        <div class="sectionContainer" id="dubContainer">
+                            <div class="dropdownContainer">
+                                <select id="dubDropdown"></select>
+                            </div>
+                            <div class="episodeButtons" id="dubEpisodes"></div>
+                        </div>
+                        <div class="sectionContainer" id="rawContainer">
+                            <div class="dropdownContainer">
+                                <select id="rawDropdown"></select>
+                            </div>
+                            <div class="episodeButtons" id="rawEpisodes"></div>
+                        </div>
+                    </div>
+                    <table id="relatedEntriesTable">
+                        <thead>
+                            <tr>
+                                <th>Related</th>
+                            </tr>
+                        </thead>
+                        <tbody id="relatedEntries"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
-        <!-- Additional Anime Details Table and Related Entries Table -->
-        <div class="clearfix">
-            <table id="animeDetailsTable">
-                <tr><th>Type</th><td id="animeType"></td></tr>
-                <tr><th>Episodes</th><td id="animeEpisodes"></td></tr>
-                <tr><th>Status</th><td id="animeStatus"></td></tr>
-                <tr><th>Aired</th><td id="animeAired"></td></tr>
-                <tr><th>Premiered</th><td id="animePremiered"></td></tr>
-                <tr><th>Duration</th><td id="animeDuration"></td></tr>
-                <tr><th>Score</th><td id="animeScore"></td></tr>
-                <tr><th>Studio</th><td id="animeStudio"></td></tr>
-                <tr><th>Producers</th><td id="animeProducers"></td></tr>
-            </table>
-
-            <table id="relatedEntriesTable">
-                <tr><th>Related</th><td id="relatedEntriesList"></td></tr>
-            </table>
+        <div id="player-container">
+            <iframe id="player" src="" frameborder="0" allowfullscreen></iframe>
         </div>
-
-        <!-- Sub, Dub, and Raw Sections -->
-        <div id="subDubRawSections">
-            <div class="sectionContainer">
-                <h3>Sub</h3>
-                <div class="dropdownContainer">
-                    <select id="subEpisodeRange"></select>
-                    <input type="number" id="subEpisodeFilter" placeholder="Episode Number">
-                </div>
-                <div class="episodeButtons" id="subEpisodeButtons"></div>
-            </div>
-            <div class="sectionContainer">
-                <h3>Dub</h3>
-                <div class="dropdownContainer">
-                    <select id="dubEpisodeRange"></select>
-                    <input type="number" id="dubEpisodeFilter" placeholder="Episode Number">
-                </div>
-                <div class="episodeButtons" id="dubEpisodeButtons"></div>
-            </div>
-            <div class="sectionContainer">
-                <h3>Raw</h3>
-                <div class="dropdownContainer">
-                    <select id="rawEpisodeRange"></select>
-                    <input type="number" id="rawEpisodeFilter" placeholder="Episode Number">
-                </div>
-                <div class="episodeButtons" id="rawEpisodeButtons"></div>
-            </div>
-        </div>
+        <div id="episode-info"></div>
+        <div id="source-container"></div>
     </main>
 
     <script>
@@ -85,12 +90,83 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById("header").innerHTML = data;
-                // Initialize search and random functionality after loading the header
-                initializeSearchAndRandom();
             });
-    </script>
 
-    <script src="info.js"></script>
-    <script src="index.js"></script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const animeId = urlParams.get("id");
+
+            if (animeId) {
+                fetch(`https://api.jikan.moe/v4/anime/${animeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const anime = data.data;
+                        document.getElementById("animePortrait").src = anime.images.jpg.image_url;
+                        document.getElementById("animeTitle").innerText = anime.title;
+                        document.getElementById("animeJapaneseTitle").innerText = anime.title_japanese;
+                        document.getElementById("animeSynopsis").innerText = anime.synopsis;
+                        document.getElementById("animeType").innerText = anime.type;
+                        document.getElementById("animeEpisodes").innerText = anime.episodes;
+                        document.getElementById("animeStatus").innerText = anime.status;
+                        document.getElementById("animeAired").innerText = anime.aired.string;
+                        document.getElementById("animeDuration").innerText = anime.duration;
+                        document.getElementById("animeRating").innerText = anime.rating;
+
+                        // Load related entries
+                        if (anime.relations && anime.relations.length > 0) {
+                            const relatedEntries = document.getElementById("relatedEntries");
+                            anime.relations.forEach(relation => {
+                                const relationRow = document.createElement("tr");
+                                const relationCell = document.createElement("td");
+                                relationCell.innerText = `${relation.relation}: ${relation.entry.map(e => e.name).join(", ")}`;
+                                relationRow.appendChild(relationCell);
+                                relatedEntries.appendChild(relationRow);
+                            });
+                        } else {
+                            document.getElementById("relatedEntriesTable").style.display = "none";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching anime data:", error);
+                    });
+
+                // Fetch Sub, Dub, Raw sources
+                fetch("animeneek.json")
+                    .then(response => response.json())
+                    .then(animeData => {
+                        const sources = animeData.find(item => item["data-mal-id"] == animeId)?.episodes || [];
+                        const subEpisodes = sources.filter(ep => ep["data-ep-lan"].toLowerCase() === "sub");
+                        const dubEpisodes = sources.filter(ep => ep["data-ep-lan"].toLowerCase() === "dub");
+                        const rawEpisodes = sources.filter(ep => ep["data-ep-lan"].toLowerCase() === "raw");
+
+                        const subContainer = document.getElementById("subEpisodes");
+                        subEpisodes.forEach(ep => {
+                            const button = document.createElement("button");
+                            button.innerText = `Sub - Episode ${ep["data-ep-number"]}`;
+                            subContainer.appendChild(button);
+                        });
+
+                        const dubContainer = document.getElementById("dubEpisodes");
+                        dubEpisodes.forEach(ep => {
+                            const button = document.createElement("button");
+                            button.innerText = `Dub - Episode ${ep["data-ep-number"]}`;
+                            dubContainer.appendChild(button);
+                        });
+
+                        const rawContainer = document.getElementById("rawEpisodes");
+                        rawEpisodes.forEach(ep => {
+                            const button = document.createElement("button");
+                            button.innerText = `Raw - Episode ${ep["data-ep-number"]}`;
+                            rawContainer.appendChild(button);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching sources:", error);
+                    });
+            } else {
+                console.error("No anime ID provided in the URL.");
+            }
+        });
+    </script>
 </body>
 </html>

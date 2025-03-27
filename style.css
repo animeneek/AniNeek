@@ -294,14 +294,12 @@ main {
 
 /* Anime Details Table */
 #animeDetailsTable {
-    width: 48%; /* Adjusted width for left alignment */
+    width: 100%;
     margin-top: 20px;
-    margin-right: 4%;
     border-collapse: collapse;
     background: #222;
     border-radius: 10px;
     overflow: hidden;
-    float: left; /* Align to the left */
 }
 
 #animeDetailsTable th, #animeDetailsTable td {
@@ -321,14 +319,13 @@ main {
 
 /* Related Entries Table */
 #relatedEntriesTable {
-    width: 48%; /* Adjusted width for right alignment */
+    width: 100%;
     margin-top: 20px;
     padding: 20px;
     background: #222;
     border-collapse: collapse;
     border-radius: 10px;
     overflow: hidden;
-    float: right; /* Align to the right */
 }
 
 #relatedEntriesTable th, #relatedEntriesTable td {
@@ -346,18 +343,29 @@ main {
     width: calc(100% - 200px); /* Adjust width for table data */
 }
 
-/* Clearfix for floating elements */
-.clearfix::after {
-    content: "";
-    display: table;
-    clear: both;
+/* Responsive Layout */
+@media (max-width: 768px) {
+    #animeInfo {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #animePortrait {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    #animeDetailsTable, #relatedEntriesTable {
+        width: 100%;
+    }
 }
 
-/* Sub, Dub, and Raw Sections */
+/* Sub, Dub, Raw Sections */
 #subDubRawSections {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 .sectionContainer {

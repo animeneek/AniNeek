@@ -58,9 +58,19 @@ document.addEventListener("DOMContentLoaded", function () {
             animeItem.classList.add("anime-item");
 
             // Determine if the anime has SUB, DUB, or RAW
-            const sub = anime.sub ? `<span class="detail-box sub">SUB</span>` : '';
-            const dub = anime.dub ? `<span class="detail-box dub">DUB</span>` : '';
-            const raw = anime.raw ? `<span class="detail-box raw">RAW</span>` : '';
+            const sub = anime.sub ? 'SUB' : '';
+            const dub = anime.dub ? 'DUB' : '';
+            const raw = anime.raw ? 'RAW' : '';
+
+            // Combine details into a single string
+            const details = [
+                anime.type,
+                anime.episodes ? `${anime.episodes} EPS` : '? EPS',
+                sub,
+                dub,
+                raw,
+                anime.status === 'Finished Airing' ? 'Fin' : ''
+            ].filter(detail => detail).join(', ');
 
             animeItem.innerHTML = `
                 <div class="poster-container">
@@ -70,14 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
                 <div class="anime-title">${anime.title}</div>
-                <div class="anime-details">
-                    ${sub}
-                    ${dub}
-                    ${raw}
-                    <span class="detail-box">${anime.type}</span>
-                    <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
-                    <span class="detail-box">Score: ${anime.score}</span>
-                </div>
+                <div class="anime-details">${details}</div>
             `;
 
             animeItem.addEventListener("click", () => {

@@ -158,7 +158,7 @@ main {
     color: #aaa;
     margin: 10px 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* Align details to the left */
     gap: 5px;
     flex-wrap: wrap;
 }
@@ -268,6 +268,7 @@ main {
 
 #animeDetails {
     flex-grow: 1;
+    text-align: left; /* Align text to the left */
 }
 
 #animeDetails h1 {
@@ -463,9 +464,10 @@ main {
 .slider-container {
     position: relative;
     max-width: 100%;
-    height: 500px; /* Adjust height as needed */
+    height: 400px; /* Decreased height */
     overflow: hidden;
     margin: 20px 0;
+    padding-top: 80px; /* Add padding to prevent it from going under the header */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }

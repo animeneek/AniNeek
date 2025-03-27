@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const slider = document.getElementById("slider");
     const prevSlideButton = document.getElementById("prevSlide");
     const nextSlideButton = document.getElementById("nextSlide");
+    const sliderDotsContainer = document.getElementById("sliderDots");
     let currentSlideIndex = 0;
 
     function fetchRandomAnime() {
@@ -23,16 +24,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 const slide = document.createElement("div");
                 slide.classList.add("slide");
                 slide.style.backgroundImage = `url(${anime.images.jpg.large_image_url})`;
+                slide.addEventListener("click", () => {
+                    window.location.href = `info.html?id=${anime.mal_id}`;
+                });
 
                 const slideContent = document.createElement("div");
                 slideContent.classList.add("slide-content");
                 slideContent.innerHTML = `
                     <h2>${anime.title}</h2>
+                    <p class="anime-details">
+                        <span class="detail-box">${anime.type}</span>
+                        <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
+                        <span class="detail-box sub">SUB</span>
+                        <span class="detail-box dub">DUB</span>
+                        <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
+                    </p>
                     <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
-                    <a href="info.html?id=${anime.mal_id}" class="btn">Read More</a>
                 `;
                 slide.appendChild(slideContent);
                 slider.appendChild(slide);
+
+                const dot = document.createElement("span");
+                dot.classList.add("slider-dot");
+                dot.addEventListener("click", () => {
+                    showSlide(i);
+                });
+                sliderDotsContainer.appendChild(dot);
             }
         }
         showSlide(currentSlideIndex);
@@ -40,10 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showSlide(index) {
         const slides = document.getElementsByClassName("slide");
+        const dots = document.getElementsByClassName("slider-dot");
         for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";
+            dots[i].classList.remove("active");
         }
         slides[index].style.display = "block";
+        dots[index].classList.add("active");
     }
 
     function nextSlide() {

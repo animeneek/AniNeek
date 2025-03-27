@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentTab = "newest";
 
     tabButtons.forEach(button => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
             tabButtons.forEach(btn => btn.classList.remove("active"));
             button.classList.add("active");
             currentTab = button.getAttribute("data-tab");
@@ -18,14 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    prevPageButton.addEventListener("click", () => {
+    prevPageButton.addEventListener("click", (event) => {
+        event.preventDefault();
         if (currentPage > 1) {
             currentPage--;
             fetchAnimeList();
         }
     });
 
-    nextPageButton.addEventListener("click", () => {
+    nextPageButton.addEventListener("click", (event) => {
+        event.preventDefault();
         currentPage++;
         fetchAnimeList();
     });

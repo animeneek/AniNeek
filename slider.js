@@ -43,25 +43,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
                 slide.innerHTML = `
-                    <div class="slide-content">
-                        <div id="smokySection" style="background-image: url(${anime.images.jpg.large_image_url})">
-                            <div id="posterOverlay">
-                                <img src="${anime.images.jpg.large_image_url}" alt="${anime.title} Poster">
-                            </div>
-                            <div id="animeInfo">
-                                <img id="animePortrait" src="${anime.images.jpg.large_image_url}" alt="${anime.title} Portrait">
-                                <div id="animeDetails">
-                                    <h1>${anime.title}</h1>
-                                    <h2>Score: ${anime.score}</h2>
-                                    <p>Genres: ${anime.genres.map(g => g.name).join(", ")}</p>
-                                    <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
-                                    <p class="anime-details">
-                                        <span class="detail-box">${anime.type}</span>
-                                        <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
-                                        ${details}
-                                        <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
-                                    </p>
-                                </div>
+                    <div class="dark-overlay">
+                        <div id="animeInfo">
+                            <img id="animePortrait" src="${anime.images.jpg.large_image_url}" alt="${anime.title} Portrait">
+                            <div id="animeDetails">
+                                <h1>${anime.title}</h1>
+                                <h2>Score: ${anime.score}</h2>
+                                <p>Genres: ${anime.genres.map(g => g.name).join(", ")}</p>
+                                <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
+                                <p class="anime-details">
+                                    <span class="detail-box">${anime.type}</span>
+                                    <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
+                                    ${details}
+                                    <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
+                                </p>
                             </div>
                         </div>
                     </div>

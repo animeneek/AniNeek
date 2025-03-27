@@ -99,7 +99,7 @@ main {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
     padding: 20px;
-    justify-content: center; /* Center the items */
+    justify-content: flex-start; /* Left-align the items */
 }
 
 /* Anime Item Styling */

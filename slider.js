@@ -5,43 +5,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const sliderDotsContainer = document.getElementById("sliderDots");
     let currentSlideIndex = 0;
 
-    function fetchRandomAnime() {
-        return fetch("https://api.jikan.moe/v4/random/anime")
-            .then(response => response.json())
-            .then(data => data.data)
-            .catch(error => {
-                console.error("Error fetching random anime:", error);
-                return null;
-            });
+    async function fetchRandomAnime() {
+        const response = await fetch("https://api.jikan.moe/v4/random/anime");
+        const data = await response.json();
+        return data.data;
     }
 
-    function fetchAniListImage(id) {
-        const query = `
-            query ($idMal: Int) {
-                Media(idMal: $idMal) {
-                    bannerImage
-                }
-            }
-        `;
-        const url = 'https://graphql.anilist.co';
-        const variables = { idMal: id };
-
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query,
-                variables
-            })
-        })
-        .then(response => response.json())
-        .then(data => data.data.Media.bannerImage)
-        .catch(error => {
-            console.error("Error fetching AniList image:", error);
-            return null;
-        });
+    async function fetchAnimeDetails(id) {
+        const response = await fetch(`https://raw.githubusercontent.com/animeneek/anineek/main/animeneek.json`);
+        const data = await response.json();
+        return data.find(anime => anime["data-mal-id"] === id);
     }
 
     async function createSlider() {
@@ -49,29 +22,51 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < 5; i++) {
             const anime = await fetchRandomAnime();
             if (anime) {
-                const anilistImage = await fetchAniListImage(anime.mal_id);
+                const animeDetails = await fetchAnimeDetails(anime.mal_id);
                 randomAnimes.push(anime);
+
                 const slide = document.createElement("div");
                 slide.classList.add("slide");
-                slide.style.backgroundImage = `url(${anilistImage || anime.images.jpg.large_image_url})`;
+                slide.style.backgroundImage = `url(${anime.images.jpg.large_image_url})`;
+
+                const hasSub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Sub");
+                const hasDub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Dub");
+                const hasRaw = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Raw");
+
+                const details = `
+                    ${hasSub ? '<span class="detail-box sub">SUB</span>' : ''}
+                    ${hasDub ? '<span class="detail-box dub">DUB</span>' : ''}
+                    ${hasRaw ? '<span class="detail-box raw">RAW</span>' : ''}
+                `;
+
+                slide.innerHTML = `
+                    <div class="slide-content">
+                        <div id="smokySection" style="background-image: url(${anime.images.jpg.large_image_url})">
+                            <div id="posterOverlay">
+                                <img src="${anime.images.jpg.large_image_url}" alt="${anime.title} Poster">
+                            </div>
+                            <div id="animeInfo">
+                                <img id="animePortrait" src="${anime.images.jpg.large_image_url}" alt="${anime.title} Portrait">
+                                <div id="animeDetails">
+                                    <h1>${anime.title}</h1>
+                                    <h2>Score: ${anime.score}</h2>
+                                    <p>Genres: ${anime.genres.map(g => g.name).join(", ")}</p>
+                                    <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
+                                    <p class="anime-details">
+                                        <span class="detail-box">${anime.type}</span>
+                                        <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
+                                        ${details}
+                                        <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 slide.addEventListener("click", () => {
                     window.location.href = `info.html?id=${anime.mal_id}`;
                 });
 
-                const slideContent = document.createElement("div");
-                slideContent.classList.add("slide-content");
-                slideContent.innerHTML = `
-                    <h2>${anime.title}</h2>
-                    <p class="anime-details">
-                        <span class="detail-box">${anime.type}</span>
-                        <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
-                        <span class="detail-box sub">SUB</span>
-                        <span class="detail-box dub">DUB</span>
-                        <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
-                    </p>
-                    <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
-                `;
-                slide.appendChild(slideContent);
                 slider.appendChild(slide);
 
                 const dot = document.createElement("span");

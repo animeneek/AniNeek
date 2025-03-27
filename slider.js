@@ -19,8 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function createSlider() {
         const popularAnimes = await fetchPopularAnime();
-        popularAnimes.forEach(async (anime, i) => {
-            const animeDetails = await fetchAnimeDetails(anime.mal_id);
+        const animeDetailsPromises = popularAnimes.map(anime => fetchAnimeDetails(anime.mal_id));
+        const animeDetailsList = await Promise.all(animeDetailsPromises);
+
+        popularAnimes.forEach((anime, i) => {
+            const animeDetails = animeDetailsList[i];
 
             const slide = document.createElement("div");
             slide.classList.add("slide");

@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function fetchRelatedEntries(anime) {
-        const relatedEntriesList = document.getElementById("relatedEntriesList");
+        const relatedEntriesList = document.getElementById("relatedEntries");
         const relatedTypes = ["Prequel", "Sequel", "Side story", "Spin-off", "Adaptation", "Summary", "Alternative version", "Other"];
 
         relatedEntriesList.innerHTML = ""; // Clear any existing entries
@@ -114,14 +114,24 @@ document.addEventListener("DOMContentLoaded", function () {
             if (anime.relations && anime.relations.length > 0) {
                 anime.relations.forEach(relation => {
                     if (relation.type === type) {
-                        relation.entry.forEach(entry => {
-                            const listItem = document.createElement("li");
-                            listItem.textContent = `${relation.type}: ${entry.name}`;
-                            relatedEntriesList.appendChild(listItem);
-                        });
+                        const relationRow = document.createElement("tr");
+                        const relationTypeCell = document.createElement("td");
+                        relationTypeCell.textContent = relation.type;
+                        relationRow.appendChild(relationTypeCell);
+
+                        const relatedAnimesCell = document.createElement("td");
+                        relatedAnimesCell.textContent = relation.entry.map(entry => entry.name).join(", ");
+                        relationRow.appendChild(relatedAnimesCell);
+
+                        relatedEntriesList.appendChild(relationRow);
                     }
                 });
             }
         });
+
+        // If no related entries, hide the table
+        if (relatedEntriesList.children.length === 0) {
+            document.getElementById("relatedEntriesTable").style.display = "none";
+        }
     }
 });

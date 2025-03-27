@@ -5,14 +5,49 @@ document.addEventListener("DOMContentLoaded", function () {
     const sliderDotsContainer = document.getElementById("sliderDots");
     let currentSlideIndex = 0;
 
-    function fetchRandomAnime() {
-        return fetch("https://api.jikan.moe/v4/random/anime")
-            .then(response => response.json())
-            .then(data => data.data)
-            .catch(error => {
-                console.error("Error fetching random anime:", error);
-                return null;
-            });
+    async function fetchRandomAnime() {
+        const query = `
+            query {
+                Media(type: ANIME, sort: TRENDING_DESC, isAdult: false) {
+                    id
+                    title {
+                        romaji
+                        english
+                        native
+                    }
+                    coverImage {
+                        extraLarge
+                        large
+                        medium
+                        color
+                    }
+                    bannerImage
+                    description(asHtml: true)
+                    episodes
+                    format
+                    status
+                }
+            }
+        `;
+        const url = 'https://graphql.anilist.co';
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.ANILIST_ACCESS_TOKEN}`
+            },
+            body: JSON.stringify({ query })
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+            return data.data.Media;
+        } catch (error) {
+            console.error('Error fetching random anime:', error);
+            return null;
+        }
     }
 
     async function createSlider() {
@@ -23,23 +58,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 randomAnimes.push(anime);
                 const slide = document.createElement("div");
                 slide.classList.add("slide");
-                slide.style.backgroundImage = `url(${anime.images.jpg.large_image_url})`;
+                slide.style.backgroundImage = `url(${anime.bannerImage || anime.coverImage.extraLarge})`;
                 slide.addEventListener("click", () => {
-                    window.location.href = `info.html?id=${anime.mal_id}`;
+                    window.location.href = `info.html?id=${anime.id}`;
                 });
 
                 const slideContent = document.createElement("div");
                 slideContent.classList.add("slide-content");
                 slideContent.innerHTML = `
-                    <h2>${anime.title}</h2>
+                    <h2>${anime.title.romaji}</h2>
                     <p class="anime-details">
-                        <span class="detail-box">${anime.type}</span>
+                        <span class="detail-box">${anime.format}</span>
                         <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
                         <span class="detail-box sub">SUB</span>
                         <span class="detail-box dub">DUB</span>
-                        <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
+                        <span class="detail-box">${anime.status === "FINISHED" ? 'Fin' : anime.status}</span>
                     </p>
-                    <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
+                    <p>${anime.description ? anime.description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 100) + '...' : 'No synopsis available.'}</p>
                 `;
                 slide.appendChild(slideContent);
                 slider.appendChild(slide);

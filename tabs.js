@@ -53,15 +53,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
         const animeList = data.data;
 
+        // Fetch additional anime details from animeneek.json for SUB, DUB, RAW
+        const animeDataResponse = await fetch("animeneek.json");
+        const animeData = await animeDataResponse.json();
+
         animeList.forEach(anime => {
+            const episodes = anime.episodes !== null ? `${anime.episodes} EPS` : "? EPS";
+            const status = anime.status === "Finished Airing" ? "Fin" : anime.status === "Currently Airing" ? "Airing" : "Soon";
+            const hentai = anime.type === "Hentai" ? `<span class="detail-box hen">HEN</span>` : "";
+            const sources = animeData.find(item => item["data-mal-id"] == anime.mal_id)?.episodes || [];
+            const sub = sources.some(ep => ep["data-ep-lan"].toLowerCase() === "sub") ? `<span class="detail-box sub">SUB</span>` : "";
+            const dub = sources.some(ep => ep["data-ep-lan"].toLowerCase() === "dub") ? `<span class="detail-box dub">DUB</span>` : "";
+            const raw = sources.some(ep => ep["data-ep-lan"].toLowerCase() === "raw") ? `<span class="detail-box raw">RAW</span>` : "";
+
             const animeItem = document.createElement("div");
             animeItem.classList.add("anime-item");
-
-            // Determine if the anime has SUB, DUB, or RAW
-            const sub = anime.sub ? '<span class="detail-box sub">SUB</span>' : '';
-            const dub = anime.dub ? '<span class="detail-box dub">DUB</span>' : '';
-            const raw = anime.raw ? '<span class="detail-box raw">RAW</span>' : '';
-
             animeItem.innerHTML = `
                 <div class="poster-container">
                     <img class="anime-poster" src="${anime.images.jpg.large_image_url}" alt="${anime.title}">
@@ -71,12 +77,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <div class="anime-title">${anime.title}</div>
                 <div class="anime-details">
+                    ${hentai}
                     <span class="detail-box">${anime.type}</span>
-                    <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
+                    <span class="detail-box">${episodes}</span>
                     ${sub}
                     ${dub}
                     ${raw}
-                    <span class="detail-box">${anime.status === 'Finished Airing' ? 'Fin' : ''}</span>
+                    <span class="detail-box">${status}</span>
                 </div>
             `;
 

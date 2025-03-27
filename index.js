@@ -11,9 +11,10 @@ function initializeSearchAndRandom() {
     });
 
     randomButton.addEventListener("click", () => {
-        fetchRandomAnime().then(anime => {
-            if (anime) {
-                window.location.href = `info.html?id=${anime.mal_id}`;
+        fetchPopularAnime().then(anime => {
+            if (anime.length > 0) {
+                const randomAnime = anime[Math.floor(Math.random() * anime.length)];
+                window.location.href = `info.html?id=${randomAnime.mal_id}`;
             }
         });
     });
@@ -28,12 +29,12 @@ function initializeSearchAndRandom() {
     });
 }
 
-function fetchRandomAnime() {
-    return fetch("https://api.jikan.moe/v4/random/anime")
+function fetchPopularAnime() {
+    return fetch("https://api.jikan.moe/v4/top/anime")
         .then(response => response.json())
         .then(data => data.data)
         .catch(error => {
-            console.error("Error fetching random anime:", error);
-            return null;
+            console.error("Error fetching popular anime:", error);
+            return [];
         });
 }

@@ -358,7 +358,6 @@ main {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    flex-wrap: wrap;
 }
 
 .sectionContainer {
@@ -664,27 +663,5 @@ main {
 @media (max-width: 576px) {
     .grid-container {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-}
-
-/* Responsive Layout */
-@media (max-width: 768px) {
-    #animeInfo {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #animePortrait {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-
-    #animeDetailsTable, #relatedEntriesTable {
-        width: 100%;
-    }
-
-    #relatedEntriesTable {
-        margin-top: 20px;
-        float: none;
     }
 }

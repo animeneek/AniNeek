@@ -57,6 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const animeItem = document.createElement("div");
             animeItem.classList.add("anime-item");
 
+            // Determine if the anime has SUB, DUB, or RAW
+            const sub = anime.sub ? `<span class="detail-box sub">SUB</span>` : '';
+            const dub = anime.dub ? `<span class="detail-box dub">DUB</span>` : '';
+            const raw = anime.raw ? `<span class="detail-box raw">RAW</span>` : '';
+
             animeItem.innerHTML = `
                 <div class="poster-container">
                     <img class="anime-poster" src="${anime.images.jpg.large_image_url}" alt="${anime.title}">
@@ -66,6 +71,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <div class="anime-title">${anime.title}</div>
                 <div class="anime-details">
+                    ${sub}
+                    ${dub}
+                    ${raw}
                     <span class="detail-box">${anime.type}</span>
                     <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
                     <span class="detail-box">Score: ${anime.score}</span>

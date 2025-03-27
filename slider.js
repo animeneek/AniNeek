@@ -29,9 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 slide.classList.add("slide");
                 slide.style.backgroundImage = `url(${anime.images.jpg.large_image_url})`;
 
-                const hasSub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Sub");
-                const hasDub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Dub");
-                const hasRaw = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Raw");
+                let hasSub = false, hasDub = false, hasRaw = false;
+                if (animeDetails && animeDetails.episodes) {
+                    hasSub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Sub");
+                    hasDub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Dub");
+                    hasRaw = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Raw");
+                }
 
                 const details = `
                     ${hasSub ? '<span class="detail-box sub">SUB</span>' : ''}
@@ -83,22 +86,27 @@ document.addEventListener("DOMContentLoaded", function () {
     function showSlide(index) {
         const slides = document.getElementsByClassName("slide");
         const dots = document.getElementsByClassName("slider-dot");
+        if (slides.length === 0) return;
         for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";
             dots[i].classList.remove("active");
         }
-        slides[index].style.display = "block";
-        dots[index].classList.add("active");
+        if (slides[index]) {
+            slides[index].style.display = "block";
+            dots[index].classList.add("active");
+        }
     }
 
     function nextSlide() {
         const slides = document.getElementsByClassName("slide");
+        if (slides.length === 0) return;
         currentSlideIndex = (currentSlideIndex + 1) % slides.length;
         showSlide(currentSlideIndex);
     }
 
     function prevSlide() {
         const slides = document.getElementsByClassName("slide");
+        if (slides.length === 0) return;
         currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
         showSlide(currentSlideIndex);
     }

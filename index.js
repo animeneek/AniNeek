@@ -1,38 +1,39 @@
 function initializeSearchAndRandom() {
-    const searchBox = document.getElementById("searchBox");
     const searchButton = document.getElementById("searchButton");
     const randomButton = document.getElementById("randomButton");
+    const searchBox = document.getElementById("searchBox");
 
-    // Search Function
-    searchButton.addEventListener("click", function () {
-        searchAnime();
-    });
-
-    searchBox.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            searchAnime();
+    searchButton.addEventListener("click", () => {
+        const query = searchBox.value;
+        if (query) {
+            window.location.href = `search.html?q=${query}`;
         }
     });
 
-    function searchAnime() {
-        const query = searchBox.value.trim();
-        if (!query) return;
-        window.location.href = `search.html?q=${query}`;
-    }
+    randomButton.addEventListener("click", () => {
+        fetchRandomAnime().then(anime => {
+            if (anime) {
+                window.location.href = `info.html?id=${anime.mal_id}`;
+            }
+        });
+    });
 
-    // Random Anime Function
-    randomButton.addEventListener("click", function () {
-        fetch("https://api.jikan.moe/v4/random/anime")
-            .then(response => response.json())
-            .then(data => {
-                window.location.href = `info.html?id=${data.data.mal_id}`;
-            })
-            .catch(error => {
-                console.error("Error fetching random anime:", error);
-            });
+    searchBox.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            const query = searchBox.value;
+            if (query) {
+                window.location.href = `search.html?q=${query}`;
+            }
+        }
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    initializeSearchAndRandom();
-});
+function fetchRandomAnime() {
+    return fetch("https://api.jikan.moe/v4/random/anime")
+        .then(response => response.json())
+        .then(data => data.data)
+        .catch(error => {
+            console.error("Error fetching random anime:", error);
+            return null;
+        });
+}

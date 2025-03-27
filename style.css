@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif; /* Updated font */
 }
 
 /* Body Styling */
@@ -27,6 +27,7 @@ header {
     top: 0;
     left: 0;
     z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Added shadow */
 }
 
 /* Main Content */
@@ -36,13 +37,19 @@ main {
 
 /* Search Title Styling */
 #searchTitle {
-    font-size: 18px;
+    font-size: 22px; /* Increased font size */
     margin-bottom: 20px;
+    font-weight: 700;
 }
 
 /* Logo */
 #logo {
     height: 40px;
+    transition: transform 0.3s; /* Added transition for hover effect */
+}
+
+#logo:hover {
+    transform: scale(1.1); /* Hover effect */
 }
 
 /* Search Container */
@@ -53,6 +60,7 @@ main {
     padding: 5px;
     border-radius: 20px;
     width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Added shadow */
 }
 
 #searchBox {
@@ -71,11 +79,11 @@ main {
     border: none;
     cursor: pointer;
     padding: 8px;
+    transition: background 0.3s; /* Added transition for hover effect */
 }
 
-#searchButton img, #randomButton img {
-    width: 24px;
-    height: 24px;
+#searchButton:hover, #randomButton:hover {
+    background: rgba(255, 255, 255, 0.1); /* Hover effect */
 }
 
 /* Icon Styling */

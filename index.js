@@ -49,22 +49,3 @@ document.addEventListener("DOMContentLoaded", function () {
             initializeSearchAndRandom();
         });
 });
-
-// Add touch support for slider navigation
-document.addEventListener("DOMContentLoaded", function () {
-    const slider = document.getElementById("slider");
-    let startX;
-
-    slider.addEventListener("touchstart", function (event) {
-        startX = event.touches[0].clientX;
-    });
-
-    slider.addEventListener("touchend", function (event) {
-        const endX = event.changedTouches[0].clientX;
-        if (startX > endX + 50) {
-            nextSlide();
-        } else if (startX < endX - 50) {
-            prevSlide();
-        }
-    });
-});

@@ -17,20 +17,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function fetchAniListImage(id) {
         const query = `
-            query ($id: Int) {
-                Media(id: $id) {
+            query ($idMal: Int) {
+                Media(idMal: $idMal) {
                     bannerImage
                 }
             }
         `;
         const url = 'https://graphql.anilist.co';
-        const variables = { id };
+        const variables = { idMal: id };
 
         return fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.ANILIST_ACCESS_TOKEN}`
+                'Authorization': `Bearer IrthHLhSyxTvWb6AoMjWeQDqoD07IoBeirqw85g6`
             },
             body: JSON.stringify({
                 query,

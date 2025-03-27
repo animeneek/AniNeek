@@ -110,6 +110,8 @@ main {
     text-align: center;
     background: #222;
     transition: transform 0.3s, box-shadow 0.3s;
+    width: 150px; /* Set a fixed width */
+    height: 250px; /* Set a fixed height */
 }
 
 .anime-item:hover {
@@ -120,7 +122,8 @@ main {
 .poster-container {
     position: relative;
     width: 100%;
-    height: 306px; /* Maintain height for all posters */
+    height: 70%; /* Adjust height to fit within the fixed dimensions */
+    overflow: hidden;
 }
 
 .poster-container .overlay {
@@ -139,9 +142,9 @@ main {
 }
 
 .anime-item img.anime-poster {
-    width: 100%; /* Adjusted to fill the container */
-    height: 100%; /* Maintain aspect ratio */
-    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the container */
 }
 
 .anime-title {
@@ -631,4 +634,5 @@ main {
     flex-wrap: wrap;
     gap: 20px;
     margin-top: 20px; /* Add some space above the anime list */
+    justify-content: center; /* Center the anime items */
 }

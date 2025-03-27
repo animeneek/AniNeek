@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const sliderDotsContainer = document.getElementById("sliderDots");
     let currentSlideIndex = 0;
 
-    async function fetchRandomAnime() {
-        const response = await fetch("https://api.jikan.moe/v4/random/anime");
+    async function fetchPopularAnime() {
+        const response = await fetch("https://api.jikan.moe/v4/top/anime");
         const data = await response.json();
-        return data.data;
+        return data.data.slice(0, 5); // Get the top 5 popular anime
     }
 
     async function fetchAnimeDetails(id) {
@@ -18,63 +18,59 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     async function createSlider() {
-        const randomAnimes = [];
-        for (let i = 0; i < 5; i++) {
-            const anime = await fetchRandomAnime();
-            if (anime) {
-                const animeDetails = await fetchAnimeDetails(anime.mal_id);
-                randomAnimes.push(anime);
+        const popularAnimes = await fetchPopularAnime();
+        popularAnimes.forEach(async (anime, i) => {
+            const animeDetails = await fetchAnimeDetails(anime.mal_id);
 
-                const slide = document.createElement("div");
-                slide.classList.add("slide");
-                slide.style.backgroundImage = `url(${anime.images.jpg.large_image_url})`;
+            const slide = document.createElement("div");
+            slide.classList.add("slide");
+            slide.style.backgroundImage = `url(${anime.images.jpg.large_image_url})`;
 
-                let hasSub = false, hasDub = false, hasRaw = false;
-                if (animeDetails && animeDetails.episodes) {
-                    hasSub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Sub");
-                    hasDub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Dub");
-                    hasRaw = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Raw");
-                }
+            let hasSub = false, hasDub = false, hasRaw = false;
+            if (animeDetails && animeDetails.episodes) {
+                hasSub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Sub");
+                hasDub = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Dub");
+                hasRaw = animeDetails.episodes.some(ep => ep["data-ep-lan"] === "Raw");
+            }
 
-                const details = `
-                    ${hasSub ? '<span class="detail-box sub">SUB</span>' : ''}
-                    ${hasDub ? '<span class="detail-box dub">DUB</span>' : ''}
-                    ${hasRaw ? '<span class="detail-box raw">RAW</span>' : ''}
-                `;
+            const details = `
+                ${hasSub ? '<span class="detail-box sub">SUB</span>' : ''}
+                ${hasDub ? '<span class="detail-box dub">DUB</span>' : ''}
+                ${hasRaw ? '<span class="detail-box raw">RAW</span>' : ''}
+            `;
 
-                slide.innerHTML = `
-                    <div class="dark-overlay">
-                        <div id="animeInfo">
-                            <img id="animePortrait" src="${anime.images.jpg.large_image_url}" alt="${anime.title} Portrait">
-                            <div id="animeDetails">
-                                <h1>${anime.title}</h1>
-                                <h2>Score: ${anime.score}</h2>
-                                <p>Genres: ${anime.genres.map(g => g.name).join(", ")}</p>
-                                <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
-                                <p class="anime-details">
-                                    <span class="detail-box">${anime.type}</span>
-                                    <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
-                                    ${details}
-                                    <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
-                                </p>
-                            </div>
+            slide.innerHTML = `
+                <div class="dark-overlay">
+                    <div id="animeInfo">
+                        <img id="animePortrait" src="${anime.images.jpg.large_image_url}" alt="${anime.title} Portrait">
+                        <div id="animeDetails">
+                            <h1>${anime.title}</h1>
+                            <h2>Score: ${anime.score}</h2>
+                            <p>Genres: ${anime.genres.map(g => g.name).join(", ")}</p>
+                            <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
+                            <p class="anime-details">
+                                <span class="detail-box">${anime.type}</span>
+                                <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
+                                ${details}
+                                <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
+                            </p>
                         </div>
                     </div>
-                `;
-                slide.addEventListener("click", () => {
-                    window.location.href = `info.html?id=${anime.mal_id}`;
-                });
+                </div>
+            `;
+            slide.addEventListener("click", () => {
+                window.location.href = `info.html?id=${anime.mal_id}`;
+            });
 
-                slider.appendChild(slide);
+            slider.appendChild(slide);
 
-                const dot = document.createElement("span");
-                dot.classList.add("slider-dot");
-                dot.addEventListener("click", () => {
-                    showSlide(i);
-                });
-                sliderDotsContainer.appendChild(dot);
-            }
-        }
+            const dot = document.createElement("span");
+            dot.classList.add("slider-dot");
+            dot.addEventListener("click", () => {
+                showSlide(i);
+            });
+            sliderDotsContainer.appendChild(dot);
+        });
         showSlide(currentSlideIndex);
     }
 

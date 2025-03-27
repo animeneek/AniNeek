@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer IrthHLhSyxTvWb6AoMjWeQDqoD07IoBeirqw85g6`
             },
             body: JSON.stringify({
                 query,

@@ -5,49 +5,44 @@ document.addEventListener("DOMContentLoaded", function () {
     const sliderDotsContainer = document.getElementById("sliderDots");
     let currentSlideIndex = 0;
 
-    async function fetchRandomAnime() {
+    function fetchRandomAnime() {
+        return fetch("https://api.jikan.moe/v4/random/anime")
+            .then(response => response.json())
+            .then(data => data.data)
+            .catch(error => {
+                console.error("Error fetching random anime:", error);
+                return null;
+            });
+    }
+
+    function fetchAniListImage(id) {
         const query = `
-            query {
-                Media(type: ANIME, sort: TRENDING_DESC, isAdult: false) {
-                    id
-                    title {
-                        romaji
-                        english
-                        native
-                    }
-                    coverImage {
-                        extraLarge
-                        large
-                        medium
-                        color
-                    }
+            query ($id: Int) {
+                Media(id: $id) {
                     bannerImage
-                    description(asHtml: true)
-                    episodes
-                    format
-                    status
                 }
             }
         `;
         const url = 'https://graphql.anilist.co';
+        const variables = { id };
 
-        const options = {
+        return fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${process.env.ANILIST_ACCESS_TOKEN}`
             },
-            body: JSON.stringify({ query })
-        };
-
-        try {
-            const response = await fetch(url, options);
-            const data = await response.json();
-            return data.data.Media;
-        } catch (error) {
-            console.error('Error fetching random anime:', error);
+            body: JSON.stringify({
+                query,
+                variables
+            })
+        })
+        .then(response => response.json())
+        .then(data => data.data.Media.bannerImage)
+        .catch(error => {
+            console.error("Error fetching AniList image:", error);
             return null;
-        }
+        });
     }
 
     async function createSlider() {
@@ -55,26 +50,27 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < 5; i++) {
             const anime = await fetchRandomAnime();
             if (anime) {
+                const anilistImage = await fetchAniListImage(anime.mal_id);
                 randomAnimes.push(anime);
                 const slide = document.createElement("div");
                 slide.classList.add("slide");
-                slide.style.backgroundImage = `url(${anime.bannerImage || anime.coverImage.extraLarge})`;
+                slide.style.backgroundImage = `url(${anilistImage || anime.images.jpg.large_image_url})`;
                 slide.addEventListener("click", () => {
-                    window.location.href = `info.html?id=${anime.id}`;
+                    window.location.href = `info.html?id=${anime.mal_id}`;
                 });
 
                 const slideContent = document.createElement("div");
                 slideContent.classList.add("slide-content");
                 slideContent.innerHTML = `
-                    <h2>${anime.title.romaji}</h2>
+                    <h2>${anime.title}</h2>
                     <p class="anime-details">
-                        <span class="detail-box">${anime.format}</span>
+                        <span class="detail-box">${anime.type}</span>
                         <span class="detail-box">${anime.episodes ? anime.episodes + ' EPS' : '? EPS'}</span>
                         <span class="detail-box sub">SUB</span>
                         <span class="detail-box dub">DUB</span>
-                        <span class="detail-box">${anime.status === "FINISHED" ? 'Fin' : anime.status}</span>
+                        <span class="detail-box">${anime.status === "Finished Airing" ? 'Fin' : anime.status}</span>
                     </p>
-                    <p>${anime.description ? anime.description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 100) + '...' : 'No synopsis available.'}</p>
+                    <p>${anime.synopsis ? anime.synopsis.substring(0, 100) + '...' : 'No synopsis available.'}</p>
                 `;
                 slide.appendChild(slideContent);
                 slider.appendChild(slide);

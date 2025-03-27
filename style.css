@@ -96,7 +96,7 @@ main {
 /* Grid Container */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(8, 1fr); /* Adjusted to fit 8 items in a row */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
     padding: 20px;
 }
@@ -638,4 +638,29 @@ main {
     gap: 20px;
     margin-top: 20px; /* Add some space above the anime list */
     justify-content: flex-start; /* Align items to the left */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1200px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
 }

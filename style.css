@@ -518,23 +518,3 @@ main {
 /* Slider Navigation */
 .slider-navigation {
     position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-}
-
-.slider-nav-button {
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    padding: 10px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.slider-nav-button:hover {
-    background: rgba(0, 0, 0, 0.8);
-}
